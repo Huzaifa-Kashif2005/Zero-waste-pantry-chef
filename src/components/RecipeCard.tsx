@@ -2,7 +2,7 @@
 
 import { Recipe } from '../lib/database';
 import { RecipeScore } from '../lib/recommendation-engine';
-import { Clock, ChefHat, CheckCircle, XCircle, AlertTriangle, TrendingUp } from 'lucide-react';
+import { Clock, ChefHat, CheckCircle, XCircle, AlertTriangle, TrendingUp, MinusCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useState } from 'react';
 
@@ -14,6 +14,10 @@ interface RecipeCardProps {
 export function RecipeCard({ recipeScore, rank }: RecipeCardProps) {
   const [showDetails, setShowDetails] = useState(false);
   const { recipe, score, usageRatio, matchedIngredients, missingIngredientsList, urgentIngredients, wasteSaved } = recipeScore;
+  
+  const sufficientIngredients = matchedIngredients.filter(m => m.isSufficient);
+  const insufficientIngredients = matchedIngredients.filter(m => !m.isSufficient);
+  const missingOrInsufficientCount = missingIngredientsList.length;
 
   const getScoreColor = (score: number): string => {
     if (score >= 70) return 'text-green-600';
@@ -73,33 +77,50 @@ export function RecipeCard({ recipeScore, rank }: RecipeCardProps) {
           </div>
         </div>
 
-        {/* Match Statistics */}
+        {/* Match Statistics - Now based on sufficiency */}
         <div className="grid grid-cols-3 gap-2 mb-4">
           <div className="bg-blue-50 rounded-lg p-2 text-center">
             <div className="text-2xl text-blue-600">{Math.round(usageRatio * 100)}%</div>
-            <div className="text-xs text-gray-600">Match</div>
+            <div className="text-xs text-gray-600">Sufficient Match</div>
           </div>
           <div className="bg-green-50 rounded-lg p-2 text-center">
-            <div className="text-2xl text-green-600">{matchedIngredients.length}</div>
-            <div className="text-xs text-gray-600">Have</div>
+            <div className="text-2xl text-green-600">{sufficientIngredients.length}</div>
+            <div className="text-xs text-gray-600">Have Enough</div>
           </div>
           <div className="bg-orange-50 rounded-lg p-2 text-center">
-            <div className="text-2xl text-orange-600">{missingIngredientsList.length}</div>
-            <div className="text-xs text-gray-600">Need</div>
+            <div className="text-2xl text-orange-600">{missingOrInsufficientCount}</div>
+            <div className="text-xs text-gray-600">Need More</div>
           </div>
         </div>
 
         {/* Urgent Ingredients Alert */}
         {urgentIngredients.length > 0 && (
-          <div className="bg-orange-50 border border-orange-200 rounded-lg p-3 mb-3">
-            <div className="flex items-center gap-2 text-orange-700 mb-1">
+          <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-3">
+            <div className="flex items-center gap-2 text-red-600 mb-1">
               <TrendingUp className="w-4 h-4" />
-              <span className="text-sm">Uses expiring ingredients:</span>
+              <span className="text-sm">Uses expiring items:</span>
             </div>
             <div className="flex flex-wrap gap-1">
               {urgentIngredients.map((ing, idx) => (
-                <span key={idx} className="bg-orange-100 text-orange-700 px-2 py-0.5 rounded text-xs capitalize">
+                <span key={idx} className="bg-red-50 text-red-600 border border-red-200 px-2 py-0.5 rounded text-xs capitalize">
                   {ing}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+        
+        {/* Insufficient Ingredients Alert (NEW) */}
+        {insufficientIngredients.length > 0 && (
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-3">
+            <div className="flex items-center gap-2 text-yellow-600 mb-1">
+              <MinusCircle className="w-4 h-4" />
+              <span className="text-sm">Quantity Insufficient:</span>
+            </div>
+            <div className="flex flex-wrap gap-1">
+              {insufficientIngredients.map((ing, idx) => (
+                <span key={idx} className="bg-yellow-100 text-yellow-600 px-2 py-0.5 rounded text-xs capitalize">
+                  {ing.name} (Need: {ing.recipeQuantity})
                 </span>
               ))}
             </div>
@@ -121,34 +142,52 @@ export function RecipeCard({ recipeScore, rank }: RecipeCardProps) {
             animate={{ height: 'auto', opacity: 1 }}
             className="mt-4 space-y-3"
           >
-            {/* Ingredients You Have */}
-            {matchedIngredients.length > 0 && (
+            {/* Ingredients You Have (Sufficient) */}
+            {sufficientIngredients.length > 0 && (
               <div>
                 <div className="flex items-center gap-2 text-green-700 mb-2">
                   <CheckCircle className="w-4 h-4" />
-                  <span className="text-sm">You have these:</span>
+                  <span className="text-sm">Sufficient Quantity:</span>
                 </div>
                 <div className="flex flex-wrap gap-1">
-                  {matchedIngredients.map((ing, idx) => (
+                  {sufficientIngredients.map((ing, idx) => (
                     <span key={idx} className="bg-green-100 text-green-700 px-2 py-1 rounded text-sm capitalize">
-                      {ing}
+                      {ing.name} (Have: {ing.pantryQuantity})
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {/* Ingredients with Insufficient Quantity (Moved here for detail view) */}
+            {insufficientIngredients.length > 0 && (
+              <div>
+                <div className="flex items-center gap-2 text-red-700 mb-2">
+                  <MinusCircle className="w-4 h-4" />
+                  <span className="text-sm">Insufficient Quantity:</span>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {insufficientIngredients.map((ing, idx) => (
+                    <span key={idx} className="bg-red-50 text-red-700 px-2 py-1 rounded text-sm capitalize">
+                      {ing.name} (Need: {ing.recipeQuantity})
                     </span>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Missing Ingredients */}
+
+            {/* Missing Ingredients (Not in Pantry at all) */}
             {missingIngredientsList.length > 0 && (
               <div>
                 <div className="flex items-center gap-2 text-orange-700 mb-2">
                   <XCircle className="w-4 h-4" />
-                  <span className="text-sm">You'll need:</span>
+                  <span className="text-sm">Missing from Pantry:</span>
                 </div>
                 <div className="flex flex-wrap gap-1">
                   {missingIngredientsList.map((ing, idx) => (
                     <span key={idx} className="bg-orange-100 text-orange-700 px-2 py-1 rounded text-sm capitalize">
-                      {ing}
+                      {ing.name} (Need: {ing.neededQuantity})
                     </span>
                   ))}
                 </div>

@@ -3,14 +3,74 @@
 
 import { Recipe, PantryItem } from './database';
 
+// Helper function for a simplistic quantity and unit extraction
+// Note: This is a highly simplified parser and cannot handle all variations.
+// A real-world app would use a specialized library for recipe NLP.
+function parseQuantity(rawText: string): { quantity: number; unit: string } {
+  const match = rawText.match(/(\d+(\.\d+)?)\s*([a-z]+)/i);
+  if (match) {
+    const quantity = parseFloat(match[1]);
+    const unit = match[3].toLowerCase();
+    return { quantity, unit };
+  }
+  
+  // Default assumptions for un-parsed or single-item ingredients
+  if (rawText.toLowerCase().includes('egg')) return { quantity: 1, unit: 'count' };
+  if (rawText.toLowerCase().includes('bread')) return { quantity: 1, unit: 'slice' };
+  if (rawText.toLowerCase().includes('tomato')) return { quantity: 1, unit: 'count' };
+  if (rawText.toLowerCase().includes('onion')) return { quantity: 1, unit: 'count' };
+  
+  // Default to 1 for generic items
+  return { quantity: 1, unit: 'unit' };
+}
+
+// A highly simplified function to compare quantities after parsing
+// For this mock, we assume units are roughly compatible if they share a common base.
+function isQuantitySufficient(
+  recipeText: string,
+  pantryText: string,
+  servings: number,
+  recipeIngredientName: string
+): boolean {
+  const recipe = parseQuantity(recipeText);
+  const pantry = parseQuantity(pantryText);
+  
+  // Scale the required quantity by servings
+  const requiredQuantity = recipe.quantity * servings;
+
+  // Simplistic unit matching logic:
+  // 1. If units are 'count', 'slice', or 'unit', compare directly.
+  if (['count', 'slice', 'unit'].includes(recipe.unit) && ['count', 'slice', 'unit'].includes(pantry.unit)) {
+    // Treat 1 "3 eggs" in recipe as 1 "unit" of egg, which is 3 eggs.
+    // If the unit is 'count', the raw number is the number of items.
+    if (requiredQuantity <= pantry.quantity) {
+      return true;
+    }
+  }
+
+  // 2. If it's a common ingredient like 'egg' or 'slice', use an explicit check
+  if (recipeIngredientName.includes('egg') || recipeIngredientName.includes('bread')) {
+    // Treat the number as the count for these normalized ingredients
+    if (requiredQuantity <= pantry.quantity) {
+      return true;
+    }
+  }
+
+  // Fallback: Assume insufficient if any part of the quantity comparison fails, 
+  // encouraging the user to check the recipe. The system will favor recipes
+  // where the pantry item quantity is numerically greater than the required.
+  return requiredQuantity <= pantry.quantity;
+}
+
+
 export interface RecipeScore {
   recipe: Recipe;
   score: number;
   usageRatio: number;
   expiryUrgency: number;
   missingItems: number;
-  matchedIngredients: string[];
-  missingIngredientsList: string[];
+  matchedIngredients: { name: string, isSufficient: boolean, pantryQuantity: string, recipeQuantity: string }[]; // Store sufficiency status
+  missingIngredientsList: { name: string, neededQuantity: string }[];
   urgentIngredients: string[];
   wasteSaved: number; // How many expiring items this recipe uses
 }
@@ -71,7 +131,7 @@ function ingredientsMatch(ingredient1: string, ingredient2: string): boolean {
   return false;
 }
 
-// Calculate days until expiry
+// Calculate days until expiry (unchanged)
 function getDaysUntilExpiry(expiryDate: Date): number {
   const now = new Date();
   const diffTime = expiryDate.getTime() - now.getTime();
@@ -79,7 +139,7 @@ function getDaysUntilExpiry(expiryDate: Date): number {
   return diffDays;
 }
 
-// Calculate expiry urgency score for a single item
+// Calculate expiry urgency score for a single item (unchanged)
 function calculateExpiryUrgencyScore(daysUntilExpiry: number): number {
   if (daysUntilExpiry < 0) return 0; // Already expired, don't use
   if (daysUntilExpiry === 0) return 100; // Expires today - VERY urgent
@@ -95,58 +155,115 @@ function calculateExpiryUrgencyScore(daysUntilExpiry: number): number {
 export function calculateRecipeScores(
   recipes: Recipe[],
   pantryItems: PantryItem[],
+  servings: number = 1, // NEW: servings parameter
   weights = { usage: 0.3, expiry: 0.5, missing: 0.2 } // W1, W2, W3
 ): RecipeScore[] {
   const scores: RecipeScore[] = [];
 
   for (const recipe of recipes) {
-    const matchedIngredients: string[] = [];
-    const missingIngredientsList: string[] = [];
+    const matchedIngredients: RecipeScore['matchedIngredients'] = [];
+    const missingIngredientsList: RecipeScore['missingIngredientsList'] = [];
     const urgentIngredients: string[] = [];
     let expiryUrgencySum = 0;
+    
+    // Total ingredients for scoring will now be based on those whose *name* matches.
+    const recipeIngredientNames = recipe.ingredients;
+    const recipeRawIngredients = recipe.rawIngredients;
+    const totalIngredients = recipeIngredientNames.length;
+    let actualMatchedCount = 0;
+    
+    // Group pantry items by normalized name to easily check for quantity
+    const pantryMap = new Map<string, PantryItem[]>();
+    for (const item of pantryItems) {
+        const normalizedName = normalizeIngredient(item.name);
+        if (!pantryMap.has(normalizedName)) {
+            pantryMap.set(normalizedName, []);
+        }
+        pantryMap.get(normalizedName)!.push(item);
+    }
+    
+    // For each recipe ingredient (normalized name)
+    recipeIngredientNames.forEach((recipeIngName, index) => {
+      let foundInPantry = false;
+      let isSufficient = false;
+      const recipeRawIng = recipeRawIngredients[index] || recipeIngName;
+      
+      // Find a matching pantry item
+      for (const [pantryNormName, pantryItems] of pantryMap.entries()) {
+        if (ingredientsMatch(recipeIngName, pantryNormName)) {
+          foundInPantry = true;
+          actualMatchedCount++;
 
-    // Check each recipe ingredient against pantry
-    for (const recipeIngredient of recipe.ingredients) {
-      let found = false;
+          // For simplicity, we'll check the first matching item's quantity.
+          // In a real app, this would be more complex, summing up all matching items.
+          const pantryItem = pantryItems[0]; 
+          const isSufficientForServings = isQuantitySufficient(
+            recipeRawIng, 
+            pantryItem.quantity, 
+            servings, 
+            recipeIngName
+          );
 
-      for (const pantryItem of pantryItems) {
-        if (ingredientsMatch(recipeIngredient, pantryItem.name)) {
-          matchedIngredients.push(recipeIngredient);
-          
-          // Calculate urgency for this ingredient
-          const daysUntilExpiry = getDaysUntilExpiry(pantryItem.expiryDate);
-          const urgencyScore = calculateExpiryUrgencyScore(daysUntilExpiry);
-          expiryUrgencySum += urgencyScore;
+          if (isSufficientForServings) {
+            isSufficient = true;
 
-          // Track urgent ingredients (expiring within 3 days)
-          if (daysUntilExpiry <= 3) {
-            urgentIngredients.push(pantryItem.name);
+            // Calculate urgency for this item
+            const daysUntilExpiry = getDaysUntilExpiry(pantryItem.expiryDate);
+            const urgencyScore = calculateExpiryUrgencyScore(daysUntilExpiry);
+            expiryUrgencySum += urgencyScore;
+
+            // Track urgent ingredients (expiring within 3 days)
+            if (daysUntilExpiry <= 3) {
+              urgentIngredients.push(pantryItem.name);
+            }
           }
-
-          found = true;
-          break;
+          
+          matchedIngredients.push({
+            name: recipeIngName,
+            isSufficient,
+            pantryQuantity: pantryItem.quantity,
+            recipeQuantity: recipeRawIng.replace(/^(.)/, (c) => c.toUpperCase())
+          });
+          
+          break; // Move to the next recipe ingredient
         }
       }
 
-      if (!found) {
-        missingIngredientsList.push(recipeIngredient);
+      if (!foundInPantry || !isSufficient) {
+        // If ingredient name is found but quantity is not sufficient,
+        // OR the ingredient is not found at all, it's a "missing" item for our cooking purpose.
+        
+        // This is a subtle change: an ingredient might exist but be insufficient. 
+        // For the purposes of the "missing" list, we treat both cases the same.
+        
+        // Scale the quantity needed for display
+        const { quantity, unit } = parseQuantity(recipeRawIng);
+        const needed = `${quantity * servings} ${unit}`;
+        
+        missingIngredientsList.push({
+            name: recipeIngName,
+            neededQuantity: needed
+        });
       }
-    }
+    });
+
 
     // Calculate metrics
-    const totalIngredients = recipe.ingredients.length;
-    const matchedCount = matchedIngredients.length;
-    const missingCount = missingIngredientsList.length;
+    // The number of *sufficient* ingredients is crucial for a good recipe.
+    const sufficientCount = matchedIngredients.filter(m => m.isSufficient).length;
+    const totalIngredientsForMatch = totalIngredients; // Base is total recipe ingredients
 
-    // U: Usage Ratio (0 to 1)
-    const usageRatio = totalIngredients > 0 ? matchedCount / totalIngredients : 0;
-
+    // U: Usage Ratio (0 to 1) - Now based on *sufficient* items
+    const usageRatio = totalIngredientsForMatch > 0 ? sufficientCount / totalIngredientsForMatch : 0;
+    
     // E: Expiry Urgency (normalized to 0-1 scale)
-    // Average urgency score across matched ingredients
-    const expiryUrgency = matchedCount > 0 ? expiryUrgencySum / (matchedCount * 100) : 0;
+    // Average urgency score across *sufficient* matched ingredients
+    const sufficientMatchedCount = matchedIngredients.filter(m => m.isSufficient).length;
+    const expiryUrgency = sufficientMatchedCount > 0 ? expiryUrgencySum / (sufficientMatchedCount * 100) : 0;
 
-    // M: Missing Items Penalty (0 to 1)
-    const missingItemsPenalty = totalIngredients > 0 ? missingCount / totalIngredients : 1;
+    // M: Missing Items Penalty (0 to 1) - Based on remaining missing/insufficient items
+    const missingCount = missingIngredientsList.length;
+    const missingItemsPenalty = totalIngredientsForMatch > 0 ? missingCount / totalIngredientsForMatch : 1;
 
     // Calculate final score: S = (W1 * U) + (W2 * E) - (W3 * M)
     const score = 
@@ -174,21 +291,22 @@ export function calculateRecipeScores(
   return scores.sort((a, b) => b.score - a.score);
 }
 
-// Get top N recommendations
+// Get top N recommendations (unchanged)
 export function getTopRecommendations(
   recipes: Recipe[],
   pantryItems: PantryItem[],
-  topN: number = 5
+  topN: number = 5,
+  servings: number = 1 // NEW: servings parameter
 ): RecipeScore[] {
-  const allScores = calculateRecipeScores(recipes, pantryItems);
+  const allScores = calculateRecipeScores(recipes, pantryItems, servings);
   
-  // Filter out recipes with 0 matched ingredients
-  const validScores = allScores.filter(score => score.matchedIngredients.length > 0);
+  // Filter out recipes with 0 *sufficient* matched ingredients
+  const validScores = allScores.filter(score => score.matchedIngredients.some(m => m.isSufficient));
   
   return validScores.slice(0, topN);
 }
 
-// Get statistics about pantry
+// Get statistics about pantry (unchanged)
 export interface PantryStats {
   totalItems: number;
   expiringToday: number;

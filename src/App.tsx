@@ -13,6 +13,8 @@ export default function App() {
   const [recommendations, setRecommendations] = useState<RecipeScore[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasSeeded, setHasSeeded] = useState(false);
+  // NEW: State for number of servings
+  const [servings, setServings] = useState(1);
 
   // Seed database with recipes on first load
   useEffect(() => {
@@ -30,7 +32,8 @@ export default function App() {
     // Simulate API call delay for better UX
     setTimeout(() => {
       const recipes = db.getAllRecipes();
-      const topRecommendations = getTopRecommendations(recipes, pantryItems, 5);
+      // NEW: Pass servings to the recommendation engine
+      const topRecommendations = getTopRecommendations(recipes, pantryItems, 5, servings);
       setRecommendations(topRecommendations);
       setIsLoading(false);
     }, 800);
@@ -101,13 +104,31 @@ export default function App() {
                   <Sparkles className="w-6 h-6 text-purple-600" />
                   <h2 className="text-2xl">Recipe Recommendations</h2>
                 </div>
+              </div>
+              
+              {/* NEW: Servings Input and Recommendation Button Group */}
+              <div className='flex flex-col sm:flex-row gap-3 items-end mb-6'>
+                <div className='flex-1 w-full'>
+                  <label htmlFor="servings-input" className="block text-sm text-gray-600 mb-1">
+                    Number of Servings
+                  </label>
+                  <input
+                    id="servings-input"
+                    type="number"
+                    value={servings}
+                    onChange={(e) => setServings(Math.max(1, parseInt(e.target.value) || 1))}
+                    min="1"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                  />
+                </div>
+                
                 {pantryItems.length > 0 && (
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={handleGetRecommendations}
                     disabled={isLoading}
-                    className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all shadow-lg flex items-center gap-2 disabled:opacity-50"
+                    className="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
                   >
                     {isLoading ? (
                       <>
@@ -162,7 +183,7 @@ export default function App() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-lg text-gray-700">
-                    Top {recommendations.length} Recipes for You
+                    Top {recommendations.length} Recipes for {servings} {servings > 1 ? 'People' : 'Person'}
                   </h3>
                   {totalWasteSaved > 0 && (
                     <div className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
@@ -222,7 +243,7 @@ export default function App() {
                 <div className="text-4xl mb-2">🧮</div>
                 <h3 className="text-lg mb-2">Smart Scoring</h3>
                 <p className="text-blue-100 text-sm">
-                  Each recipe gets a score based on: (Match %) + (Expiry Urgency) - (Missing Items)
+                  Each recipe gets a score based on: (Quantity-Checked Match %) + (Expiry Urgency) - (Missing/Insufficient Items)
                 </p>
               </div>
             </div>
