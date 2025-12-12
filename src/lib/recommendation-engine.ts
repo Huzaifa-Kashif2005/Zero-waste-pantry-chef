@@ -3,26 +3,69 @@
 
 import { Recipe, PantryItem } from './database';
 
-// Helper function for a simplistic quantity and unit extraction
+// --- UNIT CONVERSION LOGIC ---
+
+const UNIT_ALIASES: Record<string, string> = {
+  'kgs': 'kg', 'kilogram': 'kg', 'kilograms': 'kg',
+  'gms': 'g', 'gram': 'g', 'grams': 'g',
+  'lbs': 'lb', 'pound': 'lb', 'pounds': 'lb',
+  'ounce': 'oz', 'ounces': 'oz',
+  'liter': 'l', 'liters': 'l', 'litre': 'l',
+  'milliliter': 'ml', 'milliliters': 'ml',
+  'tablespoon': 'tbsp', 'tablespoons': 'tbsp',
+  'teaspoon': 'tsp', 'teaspoons': 'tsp',
+  'unit': 'count', 'piece': 'count', 'pcs': 'count'
+};
+
+function normalizeUnit(unit: string): string {
+  const lower = unit.toLowerCase().replace(/s$/, ''); // Basic plural removal
+  return UNIT_ALIASES[lower] || UNIT_ALIASES[unit.toLowerCase()] || lower;
+}
+
+// Convert everything to a base unit (g for weight, ml for volume, raw for count)
+// For simplicity in this app, we will treat 1 g ~= 1 ml for cross-domain comparisons (like water/milk)
+function getBaseQuantity(quantity: number, unit: string): { value: number; type: 'mass' | 'vol' | 'count' } {
+  const norm = normalizeUnit(unit);
+
+  // Weight -> convert to grams
+  if (norm === 'kg') return { value: quantity * 1000, type: 'mass' };
+  if (norm === 'g') return { value: quantity, type: 'mass' };
+  if (norm === 'lb') return { value: quantity * 453.59, type: 'mass' };
+  if (norm === 'oz') return { value: quantity * 28.35, type: 'mass' };
+
+  // Volume -> convert to ml
+  if (norm === 'l') return { value: quantity * 1000, type: 'vol' };
+  if (norm === 'ml') return { value: quantity, type: 'vol' };
+  if (norm === 'cup' || norm === 'cups') return { value: quantity * 236.59, type: 'vol' }; // US Cup
+  if (norm === 'tbsp') return { value: quantity * 14.79, type: 'vol' };
+  if (norm === 'tsp') return { value: quantity * 4.93, type: 'vol' };
+
+  // Count/Default
+  return { value: quantity, type: 'count' };
+}
+
 function parseQuantity(rawText: string): { quantity: number; unit: string } {
+  // Regex to match "1.5 kg", "200g", "1/2 cup"
+  // Handles fractions like 1/2
+  const fractionMatch = rawText.match(/(\d+)\/(\d+)\s*([a-z]+)/i);
+  if (fractionMatch) {
+    return { quantity: parseInt(fractionMatch[1]) / parseInt(fractionMatch[2]), unit: fractionMatch[3].toLowerCase() };
+  }
+
   const match = rawText.match(/(\d+(\.\d+)?)\s*([a-z]+)/i);
   if (match) {
-    const quantity = parseFloat(match[1]);
-    const unit = match[3].toLowerCase();
-    return { quantity, unit };
+    return { quantity: parseFloat(match[1]), unit: match[3].toLowerCase() };
   }
   
-  // Default assumptions for un-parsed or single-item ingredients
+  // Implicit counts
   if (rawText.toLowerCase().includes('egg')) return { quantity: 1, unit: 'count' };
   if (rawText.toLowerCase().includes('bread')) return { quantity: 1, unit: 'slice' };
   if (rawText.toLowerCase().includes('tomato')) return { quantity: 1, unit: 'count' };
   if (rawText.toLowerCase().includes('onion')) return { quantity: 1, unit: 'count' };
   
-  // Default to 1 for generic items
-  return { quantity: 1, unit: 'unit' };
+  return { quantity: 1, unit: 'count' };
 }
 
-// A highly simplified function to compare quantities after parsing
 function isQuantitySufficient(
   recipeText: string,
   pantryText: string,
@@ -32,26 +75,30 @@ function isQuantitySufficient(
   const recipe = parseQuantity(recipeText);
   const pantry = parseQuantity(pantryText);
   
-  // Scale the required quantity by servings
-  const requiredQuantity = recipe.quantity * servings;
+  // Recipe needs scale
+  const requiredRaw = recipe.quantity * servings;
+  
+  const recipeBase = getBaseQuantity(requiredRaw, recipe.unit);
+  const pantryBase = getBaseQuantity(pantry.quantity, pantry.unit);
 
-  // Simplistic unit matching logic:
-  if (['count', 'slice', 'unit'].includes(recipe.unit) && ['count', 'slice', 'unit'].includes(pantry.unit)) {
-    if (requiredQuantity <= pantry.quantity) {
-      return true;
-    }
+  // 1. Same Type Check (Mass vs Mass, Vol vs Vol)
+  if (recipeBase.type === pantryBase.type) {
+    return pantryBase.value >= recipeBase.value;
   }
 
-  // Common ingredient explicit check
-  if (recipeIngredientName.includes('egg') || recipeIngredientName.includes('bread')) {
-    if (requiredQuantity <= pantry.quantity) {
-      return true;
-    }
+  // 2. Cross-Domain Check (Mass vs Vol) - Rough Approximation (1g ~= 1ml)
+  // This allows "1kg" of flour to match "2 cups" (approx 240g) without failing immediately
+  if ((recipeBase.type === 'mass' && pantryBase.type === 'vol') || 
+      (recipeBase.type === 'vol' && pantryBase.type === 'mass')) {
+      // Very rough check: treat values as equal
+      return pantryBase.value >= recipeBase.value;
   }
 
-  // Fallback comparison: simple numeric check
-  return requiredQuantity <= pantry.quantity;
+  // 3. Fallback for counts/mismatched units
+  return pantry.quantity >= requiredRaw;
 }
+
+// --- END UNIT CONVERSION LOGIC ---
 
 
 export interface RecipeScore {
@@ -62,6 +109,7 @@ export interface RecipeScore {
   missingItems: number;
   matchedIngredients: { name: string, isSufficient: boolean, pantryQuantity: string, recipeQuantity: string }[];
   missingIngredientsList: { name: string, neededQuantity: string }[];
+  expiredIngredients: { name: string, pantryQuantity: string, recipeQuantity: string }[];
   urgentIngredients: string[];
   wasteSaved: number;
 }
@@ -96,7 +144,6 @@ function ingredientsMatch(ingredient1: string, ingredient2: string): boolean {
   const norm1 = normalizeIngredient(ingredient1);
   const norm2 = normalizeIngredient(ingredient2);
   
-  // Direct match or partial match
   if (norm1 === norm2) return true;
   if (norm1.includes(norm2) || norm2.includes(norm1)) return true;
   
@@ -110,7 +157,6 @@ function ingredientsMatch(ingredient1: string, ingredient2: string): boolean {
     'bean': ['bean', 'black bean', 'kidney bean', 'chickpea'],
   };
   
-  // LOGIC ADDED: Ingredient Substitutions
   const substitutions: Record<string, string[]> = {
     'pizza dough': ['pizza dough', 'flour'], 
     'flour': ['flour', 'bread'], 
@@ -133,8 +179,8 @@ function ingredientsMatch(ingredient1: string, ingredient2: string): boolean {
   return false;
 }
 
-// Calculate days until expiry
-function getDaysUntilExpiry(expiryDate: Date): number {
+// Calculate days until expiry (EXPORTED)
+export function getDaysUntilExpiry(expiryDate: Date): number {
   const now = new Date();
   const diffTime = expiryDate.getTime() - now.getTime();
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -143,7 +189,7 @@ function getDaysUntilExpiry(expiryDate: Date): number {
 
 // Calculate expiry urgency score for a single item
 function calculateExpiryUrgencyScore(daysUntilExpiry: number): number {
-  if (daysUntilExpiry < 0) return 0;
+  if (daysUntilExpiry < 0) return 0; // Already expired, don't use
   if (daysUntilExpiry === 0) return 100;
   if (daysUntilExpiry === 1) return 80;
   if (daysUntilExpiry === 2) return 60;
@@ -165,16 +211,14 @@ export function calculateRecipeScores(
   for (const recipe of recipes) {
     const matchedIngredients: RecipeScore['matchedIngredients'] = [];
     const missingIngredientsList: RecipeScore['missingIngredientsList'] = [];
+    const expiredIngredients: RecipeScore['expiredIngredients'] = [];
     const urgentIngredients: string[] = [];
     let expiryUrgencySum = 0;
     
     const recipeIngredientNames = recipe.ingredients;
     const recipeRawIngredients = recipe.rawIngredients;
     
-    // LOGIC ADDED: Exclude salt from total count so missing it doesn't hurt score
-    const totalIngredients = recipeIngredientNames.filter(n => !n.toLowerCase().includes('salt')).length;
-    
-    // Group pantry items by normalized name
+    // Group ALL pantry items by normalized name
     const pantryMap = new Map<string, PantryItem[]>();
     for (const item of pantryItems) {
         const normalizedName = normalizeIngredient(item.name);
@@ -186,79 +230,94 @@ export function calculateRecipeScores(
     
     // For each recipe ingredient
     recipeIngredientNames.forEach((recipeIngName, index) => {
-      // LOGIC ADDED: Skip salt completely
+      // Skip salt
       if (recipeIngName.toLowerCase().includes('salt')) {
         return;
       }
 
-      let foundInPantry = false;
-      let isSufficient = false;
+      let matchStatus: 'sufficient' | 'insufficient' | 'expired' | 'missing' = 'missing';
+      let matchData = null;
       const recipeRawIng = recipeRawIngredients[index] || recipeIngName;
       
-      // LOGIC ADDED: Calculate scaled quantity based on servings
       const { quantity, unit } = parseQuantity(recipeRawIng);
       const scaledQuantity = quantity * servings;
-      // Format to avoid long decimals (e.g., "1.5 cups")
       const formattedQuantity = Number.isInteger(scaledQuantity) ? scaledQuantity.toString() : scaledQuantity.toFixed(1);
       const scaledRecipeString = `${formattedQuantity} ${unit}`;
 
-      // Find a matching pantry item (checking substitutions too)
-      for (const [pantryNormName, pantryItems] of pantryMap.entries()) {
+      // Find a matching pantry item
+      for (const [pantryNormName, items] of pantryMap.entries()) {
         if (ingredientsMatch(recipeIngName, pantryNormName)) {
-          foundInPantry = true;
-
-          const pantryItem = pantryItems[0]; 
-          // LOGIC ADDED: Check if pantry has ENOUGH for the requested servings
-          const isSufficientForServings = isQuantitySufficient(
-            recipeRawIng, 
-            pantryItem.quantity, 
-            servings, 
-            recipeIngName
-          );
-
-          isSufficient = isSufficientForServings;
           
-          if (isSufficientForServings) {
-            const daysUntilExpiry = getDaysUntilExpiry(pantryItem.expiryDate);
+          // Split items into Fresh and Spoiled
+          const freshItems = items.filter(i => getDaysUntilExpiry(i.expiryDate) >= 0);
+          const spoiledItems = items.filter(i => getDaysUntilExpiry(i.expiryDate) < 0);
+
+          if (freshItems.length > 0) {
+            // Priority 1: We have fresh items
+            const primaryItem = freshItems[0];
+            const isSufficient = isQuantitySufficient(recipeRawIng, primaryItem.quantity, servings, recipeIngName);
+            
+            matchStatus = isSufficient ? 'sufficient' : 'insufficient';
+            matchData = {
+              name: primaryItem.name,
+              pantryQuantity: primaryItem.quantity,
+              recipeQuantity: scaledRecipeString
+            };
+
+            // Calculate urgency based on FRESH items only
+            const daysUntilExpiry = getDaysUntilExpiry(primaryItem.expiryDate);
             const urgencyScore = calculateExpiryUrgencyScore(daysUntilExpiry);
             expiryUrgencySum += urgencyScore;
 
             if (daysUntilExpiry <= 3) {
-              urgentIngredients.push(pantryItem.name);
+              urgentIngredients.push(primaryItem.name);
             }
+
+          } else if (spoiledItems.length > 0) {
+            // Priority 2: We ONLY have expired items
+            matchStatus = 'expired';
+            const primaryItem = spoiledItems[0];
+            matchData = {
+              name: primaryItem.name,
+              pantryQuantity: primaryItem.quantity,
+              recipeQuantity: scaledRecipeString
+            };
           }
           
-          matchedIngredients.push({
-            name: pantryItem.name, 
-            isSufficient,
-            pantryQuantity: pantryItem.quantity,
-            recipeQuantity: scaledRecipeString // Shows "Need: 4 tomatoes" instead of "2 tomatoes"
-          });
-          
-          break; 
+          if (matchStatus !== 'missing') break;
         }
       }
 
-      if (!foundInPantry || !isSufficient) {
-        // Only push to missing list if it's not already logged as an insufficient match
-        if (!matchedIngredients.some(m => normalizeIngredient(m.name) === recipeIngName)) {
+      if (matchStatus === 'sufficient') {
+        matchedIngredients.push({ ...matchData!, isSufficient: true });
+      } else if (matchStatus === 'insufficient') {
+        matchedIngredients.push({ ...matchData!, isSufficient: false });
+      } else if (matchStatus === 'expired') {
+        expiredIngredients.push({ ...matchData! });
+      } else {
+        // Missing entirely
+        const nameMatches = (n: string) => normalizeIngredient(n) === recipeIngName;
+        const alreadyMatched = matchedIngredients.some(m => nameMatches(m.name));
+        const alreadyExpired = expiredIngredients.some(e => nameMatches(e.name));
+
+        if (!alreadyMatched && !alreadyExpired) {
             missingIngredientsList.push({
                 name: recipeIngName.replace(/^(.)/, (c) => c.toUpperCase()),
-                neededQuantity: scaledRecipeString // Shows the scaled amount needed
+                neededQuantity: scaledRecipeString 
             });
         }
       }
     });
 
     const sufficientCount = matchedIngredients.filter(m => m.isSufficient).length;
-    const totalIngredientsForMatch = totalIngredients;
+    const totalIngredientsForMatch = recipeIngredientNames.filter(n => !n.toLowerCase().includes('salt')).length;
 
     const usageRatio = totalIngredientsForMatch > 0 ? sufficientCount / totalIngredientsForMatch : 0;
     
     const sufficientMatchedCount = matchedIngredients.filter(m => m.isSufficient).length;
     const expiryUrgency = sufficientMatchedCount > 0 ? expiryUrgencySum / (sufficientMatchedCount * 100) : 0;
 
-    const missingCount = missingIngredientsList.length;
+    const missingCount = missingIngredientsList.length + expiredIngredients.length;
     const missingItemsPenalty = totalIngredientsForMatch > 0 ? missingCount / totalIngredientsForMatch : 1;
 
     const score = 
@@ -276,6 +335,7 @@ export function calculateRecipeScores(
       missingItems: missingItemsPenalty,
       matchedIngredients,
       missingIngredientsList,
+      expiredIngredients,
       urgentIngredients,
       wasteSaved
     });
@@ -291,7 +351,6 @@ export function getTopRecommendations(
   servings: number = 1
 ): RecipeScore[] {
   const allScores = calculateRecipeScores(recipes, pantryItems, servings);
-  // Only recommend recipes where you have at least ONE sufficient ingredient match
   const validScores = allScores.filter(score => score.matchedIngredients.some(m => m.isSufficient));
   return validScores.slice(0, topN);
 }

@@ -9,9 +9,22 @@ interface PantryManagerProps {
   pantryItems: PantryItem[];
   onAddItem: (name: string, quantity: string, expiryDate: Date) => void;
   onDeleteItem: (id: number) => void;
-  // NEW: Add update handler
   onUpdateItem: (id: number, updates: Partial<PantryItem>) => void;
 }
+
+// Standard units for selection
+const UNIT_OPTIONS = [
+  { value: 'units', label: 'Units (Count)' },
+  { value: 'g', label: 'Grams (g)' },
+  { value: 'kg', label: 'Kilograms (kg)' },
+  { value: 'ml', label: 'Milliliters (ml)' },
+  { value: 'l', label: 'Liters (L)' },
+  { value: 'cup', label: 'Cups' },
+  { value: 'tbsp', label: 'Tablespoons' },
+  { value: 'tsp', label: 'Teaspoons' },
+  { value: 'lb', label: 'Pounds (lb)' },
+  { value: 'oz', label: 'Ounces (oz)' },
+];
 
 // Helper to format Date object to YYYY-MM-DD string
 const formatDate = (date: Date): string => {
@@ -25,9 +38,14 @@ const formatDate = (date: Date): string => {
 
 export function PantryManager({ pantryItems, onAddItem, onDeleteItem, onUpdateItem }: PantryManagerProps) {
   const [name, setName] = useState('');
-  const [quantity, setQuantity] = useState('');
+  
+  // Split quantity into Amount and Unit
+  const [amount, setAmount] = useState('');
+  const [unit, setUnit] = useState('units');
+  
   const [expiryDate, setExpiryDate] = useState('');
-  // NEW: State for editing an item
+  
+  // Editing state
   const [editingItem, setEditingItem] = useState<PantryItem | null>(null);
   const [editQuantity, setEditQuantity] = useState('');
   const [editExpiryDate, setEditExpiryDate] = useState('');
@@ -37,14 +55,17 @@ export function PantryManager({ pantryItems, onAddItem, onDeleteItem, onUpdateIt
     if (!name || !expiryDate) return;
 
     const expiry = new Date(expiryDate);
-    // Adjust expiry to midnight UTC to prevent timezone issues causing it to expire a day early
     expiry.setUTCHours(23, 59, 59, 999); 
     
-    onAddItem(name, quantity || '1 unit', expiry);
+    // Combine amount and unit into a single string for storage
+    const quantityString = amount ? `${amount} ${unit}` : '1 unit';
+    
+    onAddItem(name, quantityString, expiry);
     
     // Reset form
     setName('');
-    setQuantity('');
+    setAmount('');
+    setUnit('units');
     setExpiryDate('');
   };
   
@@ -59,7 +80,6 @@ export function PantryManager({ pantryItems, onAddItem, onDeleteItem, onUpdateIt
     if (!editingItem || !editExpiryDate) return;
 
     const expiry = new Date(editExpiryDate);
-    // Adjust expiry to midnight UTC to prevent timezone issues
     expiry.setUTCHours(23, 59, 59, 999);
     
     onUpdateItem(editingItem.id, {
@@ -67,12 +87,11 @@ export function PantryManager({ pantryItems, onAddItem, onDeleteItem, onUpdateIt
       expiryDate: expiry,
     });
     
-    setEditingItem(null); // Close the edit mode
+    setEditingItem(null); 
   };
 
   const getDaysUntilExpiry = (expiryDate: Date): number => {
     const now = new Date();
-    // Use UTC date for calculation to avoid local timezone offset issues on expiration day
     const expiryUtc = new Date(expiryDate.getFullYear(), expiryDate.getMonth(), expiryDate.getDate());
     const nowUtc = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
@@ -124,14 +143,29 @@ export function PantryManager({ pantryItems, onAddItem, onDeleteItem, onUpdateIt
         </div>
 
         <div>
-          <label className="block text-sm text-gray-600 mb-1">Quantity (e.g., 3 units, 1 lb, 500g)</label>
-          <input
-            type="text"
-            value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
-            placeholder="e.g., 3, 1 lb, 500g"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-          />
+          <label className="block text-sm text-gray-600 mb-1">Quantity</label>
+          <div className="flex gap-2">
+            <input
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="0"
+              min="0"
+              step="0.1"
+              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            />
+            <select
+              value={unit}
+              onChange={(e) => setUnit(e.target.value)}
+              className="w-1/3 px-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white"
+            >
+              {UNIT_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div>
@@ -196,7 +230,7 @@ export function PantryManager({ pantryItems, onAddItem, onDeleteItem, onUpdateIt
                           type="text"
                           value={editQuantity}
                           onChange={(e) => setEditQuantity(e.target.value)}
-                          placeholder="Quantity"
+                          placeholder="Quantity (e.g. 500g)"
                           className="w-full px-2 py-1 border border-gray-300 rounded-md text-sm outline-none"
                           required
                         />

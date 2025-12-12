@@ -2,9 +2,10 @@
 
 import { Recipe } from '../lib/database';
 import { RecipeScore } from '../lib/recommendation-engine';
-import { Clock, ChefHat, CheckCircle, XCircle, AlertTriangle, TrendingUp, MinusCircle } from 'lucide-react';
+import { Clock, ChefHat, CheckCircle, XCircle, AlertTriangle, TrendingUp, MinusCircle, Trash2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useState } from 'react';
+import { ImageWithFallback } from './figma/ImageWithFallback';
 
 interface RecipeCardProps {
   recipeScore: RecipeScore;
@@ -13,11 +14,12 @@ interface RecipeCardProps {
 
 export function RecipeCard({ recipeScore, rank }: RecipeCardProps) {
   const [showDetails, setShowDetails] = useState(false);
-  const { recipe, score, usageRatio, matchedIngredients, missingIngredientsList, urgentIngredients, wasteSaved } = recipeScore;
+  const { recipe, score, usageRatio, matchedIngredients, missingIngredientsList, expiredIngredients, urgentIngredients, wasteSaved } = recipeScore;
   
   const sufficientIngredients = matchedIngredients.filter(m => m.isSufficient);
   const insufficientIngredients = matchedIngredients.filter(m => !m.isSufficient);
-  const missingOrInsufficientCount = missingIngredientsList.length;
+  // Total 'bad' items = Missing + Insufficient + Expired
+  const missingOrInsufficientCount = missingIngredientsList.length + insufficientIngredients.length + (expiredIngredients?.length || 0);
 
   const getScoreColor = (score: number): string => {
     if (score >= 70) return 'text-green-600';
@@ -40,7 +42,7 @@ export function RecipeCard({ recipeScore, rank }: RecipeCardProps) {
     >
       {/* Image Section */}
       <div className="relative h-48 overflow-hidden">
-        <img
+        <ImageWithFallback
           src={recipe.image_url}
           alt={recipe.title}
           className="w-full h-full object-cover"
@@ -77,7 +79,7 @@ export function RecipeCard({ recipeScore, rank }: RecipeCardProps) {
           </div>
         </div>
 
-        {/* Match Statistics - Now based on sufficiency */}
+        {/* Match Statistics */}
         <div className="grid grid-cols-3 gap-2 mb-4">
           <div className="bg-blue-50 rounded-lg p-2 text-center">
             <div className="text-2xl text-blue-600">{Math.round(usageRatio * 100)}%</div>
@@ -93,7 +95,7 @@ export function RecipeCard({ recipeScore, rank }: RecipeCardProps) {
           </div>
         </div>
 
-        {/* Urgent Ingredients Alert */}
+        {/* Urgent Ingredients Alert (Fresh but expiring soon) */}
         {urgentIngredients.length > 0 && (
           <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-3">
             <div className="flex items-center gap-2 text-red-600 mb-1">
@@ -110,7 +112,24 @@ export function RecipeCard({ recipeScore, rank }: RecipeCardProps) {
           </div>
         )}
         
-        {/* Insufficient Ingredients Alert (NEW) */}
+        {/* EXPIRED INGREDIENTS ALERT (Spoiled) */}
+        {expiredIngredients && expiredIngredients.length > 0 && (
+          <div className="bg-gray-100 border border-gray-300 rounded-lg p-3 mb-3">
+            <div className="flex items-center gap-2 text-gray-700 mb-1">
+              <Trash2 className="w-4 h-4" />
+              <span className="text-sm font-medium">Expired - Remove from Pantry:</span>
+            </div>
+            <div className="flex flex-wrap gap-1">
+              {expiredIngredients.map((ing, idx) => (
+                <span key={idx} className="bg-gray-200 text-gray-700 px-2 py-0.5 rounded text-xs capitalize line-through">
+                  {ing.name}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+        
+        {/* Insufficient Ingredients Alert */}
         {insufficientIngredients.length > 0 && (
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-3">
             <div className="flex items-center gap-2 text-yellow-600 mb-1">
@@ -159,7 +178,7 @@ export function RecipeCard({ recipeScore, rank }: RecipeCardProps) {
               </div>
             )}
             
-            {/* Ingredients with Insufficient Quantity (Moved here for detail view) */}
+            {/* Ingredients with Insufficient Quantity */}
             {insufficientIngredients.length > 0 && (
               <div>
                 <div className="flex items-center gap-2 text-red-700 mb-2">
@@ -176,8 +195,24 @@ export function RecipeCard({ recipeScore, rank }: RecipeCardProps) {
               </div>
             )}
 
+            {/* Expired Ingredients Detail */}
+            {expiredIngredients && expiredIngredients.length > 0 && (
+              <div>
+                <div className="flex items-center gap-2 text-gray-700 mb-2">
+                  <Trash2 className="w-4 h-4" />
+                  <span className="text-sm">Expired Items (Buy Fresh):</span>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {expiredIngredients.map((ing, idx) => (
+                    <span key={idx} className="bg-gray-200 text-gray-600 px-2 py-1 rounded text-sm capitalize border border-gray-300">
+                      {ing.name} (Expired)
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
 
-            {/* Missing Ingredients (Not in Pantry at all) */}
+            {/* Missing Ingredients */}
             {missingIngredientsList.length > 0 && (
               <div>
                 <div className="flex items-center gap-2 text-orange-700 mb-2">

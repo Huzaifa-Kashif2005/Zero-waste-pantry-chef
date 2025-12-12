@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { db, PantryItem } from './lib/database';
 import { SEED_RECIPES } from './lib/seed-data';
-import { getTopRecommendations, getPantryStats, RecipeScore } from './lib/recommendation-engine';
+import { getTopRecommendations, getPantryStats, RecipeScore, getDaysUntilExpiry } from './lib/recommendation-engine';
 import { PantryManager } from './components/PantryManager';
 import { RecipeCard } from './components/RecipeCard';
 import { StatsPanel } from './components/StatsPanel';
-import { ChefHat, Sparkles, RefreshCw, AlertCircle } from 'lucide-react';
+import { ChefHat, Sparkles, RefreshCw, AlertCircle, Trash2 } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function App() {
@@ -14,9 +14,12 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [hasSeeded, setHasSeeded] = useState(false);
   
-  // State for servings (allows string for empty input) and error message
+  // State for servings and errors
   const [servings, setServings] = useState<number | string>(1);
   const [servingsError, setServingsError] = useState<string>("");
+  
+  // NEW: State to track expired items that block recommendations
+  const [expiredItems, setExpiredItems] = useState<PantryItem[]>([]);
 
   // Seed database with recipes on first load
   useEffect(() => {
@@ -32,9 +35,8 @@ export default function App() {
     const val = e.target.value;
     setServings(val);
 
-    // Validation Logic
     if (val === '') {
-      setServingsError(""); // No error for empty, button will just be disabled
+      setServingsError(""); 
     } else {
       const num = parseInt(val);
       if (num === 0) {
@@ -49,13 +51,26 @@ export default function App() {
 
   // Get recommendations
   const handleGetRecommendations = () => {
-    // Safety check
+    // 1. Safety check for servings
     const servingsNum = typeof servings === 'string' ? parseInt(servings) : servings;
     if (!servingsNum || servingsNum <= 0) return;
 
+    // 2. Check for Expired Items
+    const expired = pantryItems.filter(item => getDaysUntilExpiry(item.expiryDate) < 0);
+    
+    if (expired.length > 0) {
+        // Block recommendations!
+        setExpiredItems(expired);
+        setRecommendations([]); // Clear any previous results
+        return; 
+    } else {
+        // Clear warning if resolved
+        setExpiredItems([]);
+    }
+
     setIsLoading(true);
     
-    // Simulate API call delay for better UX
+    // Simulate API call delay
     setTimeout(() => {
       const recipes = db.getAllRecipes();
       const topRecommendations = getTopRecommendations(recipes, pantryItems, 5, servingsNum); 
@@ -68,20 +83,16 @@ export default function App() {
   const handleAddItem = (name: string, quantity: string, expiryDate: Date) => {
     db.addPantryItem({ name, quantity, expiryDate });
     setPantryItems(db.getAllPantryItems());
-    
-    if (recommendations.length > 0) {
-      handleGetRecommendations();
-    }
+    // We don't auto-refresh recommendations here to force user to check expiry again
   };
 
   // Update item in pantry
   const handleUpdateItem = (id: number, updates: Partial<PantryItem>) => {
     db.updatePantryItem(id, updates);
     setPantryItems(db.getAllPantryItems());
-
-    if (recommendations.length > 0) {
-        handleGetRecommendations();
-    }
+    
+    // If we updated an item, maybe it fixed the expiry issue, so clear the warning temporarily
+    setExpiredItems([]); 
   };
 
   // Delete item from pantry
@@ -89,16 +100,14 @@ export default function App() {
     db.deletePantryItem(id);
     setPantryItems(db.getAllPantryItems());
     
-    if (recommendations.length > 0) {
-      handleGetRecommendations();
-    }
+    // If we deleted an item, clear the expired warning to allow re-checking
+    setExpiredItems([]);
   };
 
   // Calculate stats
   const stats = getPantryStats(pantryItems);
   const totalWasteSaved = recommendations.reduce((sum, rec) => sum + rec.wasteSaved, 0);
 
-  // Helper to determine if button should be enabled
   const isFormValid = !servingsError && servings !== '' && (typeof servings === 'string' ? parseInt(servings) > 0 : servings > 0);
 
   return (
@@ -157,7 +166,6 @@ export default function App() {
                         min="1"
                         className={`w-full px-3 py-2 border ${servingsError ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'} rounded-lg focus:ring-2 focus:border-transparent outline-none text-center transition-colors`}
                       />
-                      {/* Error Message Tooltip/Text */}
                       {servingsError && (
                         <div className="absolute top-full left-0 mt-1 flex items-center gap-1 text-xs text-red-600 font-medium whitespace-nowrap">
                           <AlertCircle className="w-3 h-3" />
@@ -191,6 +199,41 @@ export default function App() {
                 )}
               </div>
 
+              {/* WARNING BLOCKER FOR EXPIRED ITEMS */}
+              {expiredItems.length > 0 && (
+                <motion.div 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mb-6 bg-red-50 border border-red-200 rounded-xl p-6 text-center"
+                >
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="bg-red-100 p-3 rounded-full">
+                            <Trash2 className="w-8 h-8 text-red-600" />
+                        </div>
+                        <h3 className="text-lg font-semibold text-red-700">Safety First!</h3>
+                        <p className="text-gray-700 max-w-md mx-auto">
+                            We found <strong>{expiredItems.length} expired item{expiredItems.length > 1 ? 's' : ''}</strong> in your pantry. 
+                            Please remove them before cooking to ensure safe and delicious meals.
+                        </p>
+                        
+                        <div className="flex flex-wrap gap-2 justify-center mt-2">
+                            {expiredItems.map(item => (
+                                <span key={item.id} className="bg-white border border-red-200 text-red-600 px-3 py-1 rounded-full text-sm font-medium capitalize flex items-center gap-1 shadow-sm">
+                                    {item.name}
+                                    <span className="text-xs opacity-75">
+                                        (Expired {Math.abs(getDaysUntilExpiry(item.expiryDate))}d ago)
+                                    </span>
+                                </span>
+                            ))}
+                        </div>
+                        
+                        <p className="text-xs text-gray-500 mt-2">
+                            Delete these items using the list on the left to proceed.
+                        </p>
+                    </div>
+                </motion.div>
+              )}
+
               {pantryItems.length === 0 ? (
                 <div className="text-center py-12">
                   <div className="bg-blue-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -207,7 +250,7 @@ export default function App() {
                     </p>
                   </div>
                 </div>
-              ) : recommendations.length === 0 ? (
+              ) : (recommendations.length === 0 && expiredItems.length === 0) ? (
                 <div className="text-center py-12">
                   <div className="bg-purple-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Sparkles className="w-10 h-10 text-purple-600" />
@@ -225,8 +268,8 @@ export default function App() {
               ) : null}
             </div>
 
-            {/* Recipe Cards */}
-            {recommendations.length > 0 && (
+            {/* Recipe Cards - Only show if NO expired items found */}
+            {recommendations.length > 0 && expiredItems.length === 0 && (
               <div className="space-y-4">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-lg text-gray-700">
