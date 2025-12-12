@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { db } from './lib/database';
+import { db, PantryItem } from './lib/database';
 import { SEED_RECIPES } from './lib/seed-data';
 import { getTopRecommendations, getPantryStats, RecipeScore } from './lib/recommendation-engine';
 import { PantryManager } from './components/PantryManager';
 import { RecipeCard } from './components/RecipeCard';
 import { StatsPanel } from './components/StatsPanel';
-import { ChefHat, Sparkles, RefreshCw } from 'lucide-react';
+import { ChefHat, Sparkles, RefreshCw, AlertCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function App() {
@@ -13,27 +13,52 @@ export default function App() {
   const [recommendations, setRecommendations] = useState<RecipeScore[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasSeeded, setHasSeeded] = useState(false);
-  // NEW: State for number of servings
-  const [servings, setServings] = useState(1);
+  
+  // State for servings (allows string for empty input) and error message
+  const [servings, setServings] = useState<number | string>(1);
+  const [servingsError, setServingsError] = useState<string>("");
 
   // Seed database with recipes on first load
   useEffect(() => {
     const recipes = db.getAllRecipes();
-    if (recipes.length === 0) {
+    if (recipes.length === 0 || recipes.length !== SEED_RECIPES.length) {
       db.seedRecipes(SEED_RECIPES);
       setHasSeeded(true);
     }
   }, []);
 
+  // Handle Servings Input Change
+  const handleServingsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setServings(val);
+
+    // Validation Logic
+    if (val === '') {
+      setServingsError(""); // No error for empty, button will just be disabled
+    } else {
+      const num = parseInt(val);
+      if (num === 0) {
+        setServingsError("Must be > 0");
+      } else if (num < 0) {
+        setServingsError("Must be positive");
+      } else {
+        setServingsError("");
+      }
+    }
+  };
+
   // Get recommendations
   const handleGetRecommendations = () => {
+    // Safety check
+    const servingsNum = typeof servings === 'string' ? parseInt(servings) : servings;
+    if (!servingsNum || servingsNum <= 0) return;
+
     setIsLoading(true);
     
     // Simulate API call delay for better UX
     setTimeout(() => {
       const recipes = db.getAllRecipes();
-      // NEW: Pass servings to the recommendation engine
-      const topRecommendations = getTopRecommendations(recipes, pantryItems, 5, servings);
+      const topRecommendations = getTopRecommendations(recipes, pantryItems, 5, servingsNum); 
       setRecommendations(topRecommendations);
       setIsLoading(false);
     }, 800);
@@ -44,9 +69,18 @@ export default function App() {
     db.addPantryItem({ name, quantity, expiryDate });
     setPantryItems(db.getAllPantryItems());
     
-    // Auto-refresh recommendations if there are any
     if (recommendations.length > 0) {
       handleGetRecommendations();
+    }
+  };
+
+  // Update item in pantry
+  const handleUpdateItem = (id: number, updates: Partial<PantryItem>) => {
+    db.updatePantryItem(id, updates);
+    setPantryItems(db.getAllPantryItems());
+
+    if (recommendations.length > 0) {
+        handleGetRecommendations();
     }
   };
 
@@ -55,7 +89,6 @@ export default function App() {
     db.deletePantryItem(id);
     setPantryItems(db.getAllPantryItems());
     
-    // Auto-refresh recommendations if there are any
     if (recommendations.length > 0) {
       handleGetRecommendations();
     }
@@ -64,6 +97,9 @@ export default function App() {
   // Calculate stats
   const stats = getPantryStats(pantryItems);
   const totalWasteSaved = recommendations.reduce((sum, rec) => sum + rec.wasteSaved, 0);
+
+  // Helper to determine if button should be enabled
+  const isFormValid = !servingsError && servings !== '' && (typeof servings === 'string' ? parseInt(servings) > 0 : servings > 0);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
@@ -93,55 +129,65 @@ export default function App() {
               pantryItems={pantryItems}
               onAddItem={handleAddItem}
               onDeleteItem={handleDeleteItem}
+              onUpdateItem={handleUpdateItem}
             />
           </div>
 
           {/* Right Section - Recommendations */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
+                <div className="flex items-center gap-3 self-start sm:self-center">
                   <Sparkles className="w-6 h-6 text-purple-600" />
                   <h2 className="text-2xl">Recipe Recommendations</h2>
                 </div>
-              </div>
-              
-              {/* NEW: Servings Input and Recommendation Button Group */}
-              <div className='flex flex-col sm:flex-row gap-3 items-end mb-6'>
-                <div className='flex-1 w-full'>
-                  <label htmlFor="servings-input" className="block text-sm text-gray-600 mb-1">
-                    Number of Servings
-                  </label>
-                  <input
-                    id="servings-input"
-                    type="number"
-                    value={servings}
-                    onChange={(e) => setServings(Math.max(1, parseInt(e.target.value) || 1))}
-                    min="1"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                  />
-                </div>
                 
+                {/* Input and Button Group */}
                 {pantryItems.length > 0 && (
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={handleGetRecommendations}
-                    disabled={isLoading}
-                    className="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
-                  >
-                    {isLoading ? (
-                      <>
-                        <RefreshCw className="w-5 h-5 animate-spin" />
-                        Finding recipes...
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles className="w-5 h-5" />
-                        Get Recommendations
-                      </>
-                    )}
-                  </motion.button>
+                  <div className='flex flex-row items-start gap-3 w-full sm:w-auto h-[70px]'>
+                    <div className='w-24 sm:w-32 flex-shrink-0 relative'>
+                      <label htmlFor="servings-input" className="block text-sm text-gray-600 mb-1 whitespace-nowrap">
+                        Servings
+                      </label>
+                      <input
+                        id="servings-input"
+                        type="number"
+                        value={servings}
+                        onChange={handleServingsChange}
+                        min="1"
+                        className={`w-full px-3 py-2 border ${servingsError ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'} rounded-lg focus:ring-2 focus:border-transparent outline-none text-center transition-colors`}
+                      />
+                      {/* Error Message Tooltip/Text */}
+                      {servingsError && (
+                        <div className="absolute top-full left-0 mt-1 flex items-center gap-1 text-xs text-red-600 font-medium whitespace-nowrap">
+                          <AlertCircle className="w-3 h-3" />
+                          {servingsError}
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="pt-[26px] flex-1 sm:flex-initial">
+                      <motion.button
+                        whileHover={isFormValid ? { scale: 1.05 } : {}}
+                        whileTap={isFormValid ? { scale: 0.95 } : {}}
+                        onClick={handleGetRecommendations}
+                        disabled={isLoading || !isFormValid}
+                        className={`w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 h-[42px] rounded-lg transition-all shadow-lg flex items-center justify-center gap-2 whitespace-nowrap ${(!isFormValid || isLoading) ? 'opacity-50 cursor-not-allowed grayscale' : 'hover:from-purple-700 hover:to-blue-700'}`}
+                      >
+                        {isLoading ? (
+                          <>
+                            <RefreshCw className="w-5 h-5 animate-spin" />
+                            <span className="hidden sm:inline">Finding...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Sparkles className="w-5 h-5" />
+                            <span>Get Recipes</span>
+                          </>
+                        )}
+                      </motion.button>
+                    </div>
+                  </div>
                 )}
               </div>
 
@@ -154,6 +200,7 @@ export default function App() {
                   <p className="text-gray-600 mb-4">
                     Add items to your pantry to get personalized recipe recommendations
                   </p>
+                  
                   <div className="bg-blue-50 rounded-lg p-4 max-w-md mx-auto">
                     <p className="text-sm text-blue-800">
                       💡 <span>Tip:</span> Items closer to expiry will get higher priority in recommendations!
@@ -171,7 +218,7 @@ export default function App() {
                   </p>
                   <div className="bg-purple-50 rounded-lg p-4 max-w-md mx-auto">
                     <p className="text-sm text-purple-800">
-                      🎯 <span>Our AI considers:</span> What you have, what's expiring soon, and what you're missing
+                      🎯 <span>Our AI considers:</span> What you have, what's expiring soon, and quantity needed.
                     </p>
                   </div>
                 </div>
@@ -183,7 +230,7 @@ export default function App() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-lg text-gray-700">
-                    Top {recommendations.length} Recipes for {servings} {servings > 1 ? 'People' : 'Person'}
+                    Top {recommendations.length} Recipes for {servings} {parseInt(String(servings)) !== 1 ? 'People' : 'Person'}
                   </h3>
                   {totalWasteSaved > 0 && (
                     <div className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
@@ -227,16 +274,16 @@ export default function App() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div>
                 <div className="text-4xl mb-2">🎯</div>
-                <h3 className="text-lg mb-2">Ingredient Matching</h3>
+                <h3 className="text-lg mb-2">Quantity Match</h3>
                 <p className="text-blue-100 text-sm">
-                  We analyze your pantry and match it against {SEED_RECIPES.length}+ recipes to find the best fits
+                  We check if you have *enough* of an ingredient for your desired number of servings.
                 </p>
               </div>
               <div>
-                <div className="text-4xl mb-2">⏰</div>
-                <h3 className="text-lg mb-2">Expiry Priority</h3>
+                <div className="text-4xl mb-2">🔄</div>
+                <h3 className="text-lg mb-2">Ingredient Flexibility</h3>
                 <p className="text-blue-100 text-sm">
-                  Items expiring soon get higher priority, helping you reduce food waste
+                  The system recognizes basic substitutions, e.g., using `flour` if a recipe calls for `pizza dough`.
                 </p>
               </div>
               <div>
