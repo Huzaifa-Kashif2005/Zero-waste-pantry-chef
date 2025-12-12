@@ -11,6 +11,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["egg", "milk", "butter", "salt", "pepper"],
     instructions: "Beat eggs with milk. Melt butter in pan over medium heat. Add eggs and gently stir until soft curds form. Season with salt and pepper.",
     image_url: "https://images.unsplash.com/photo-1608039829572-78524f79c4c7?w=800",
+    video_url: "https://www.youtube.com/watch?v=PUP7U5vTMM0",
     cuisine: "American",
     cookTime: 10
   },
@@ -20,6 +21,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["tomato", "mozzarella", "basil", "olive oil", "vinegar"],
     instructions: "Slice tomatoes and mozzarella. Arrange alternating slices on a plate. Top with fresh basil leaves. Drizzle with olive oil and balsamic vinegar.",
     image_url: "https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=800",
+    video_url: "https://www.youtube.com/watch?v=MEV3Xo3tMng",
     cuisine: "Italian",
     cookTime: 5
   },
@@ -29,6 +31,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["spaghetti", "garlic", "olive oil", "pepper", "parsley", "parmesan"],
     instructions: "Cook spaghetti. In a pan, heat olive oil and sauté sliced garlic until golden. Add red pepper flakes. Toss cooked pasta in the garlic oil. Garnish with parsley and parmesan.",
     image_url: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=800",
+    video_url: "https://www.youtube.com/watch?v=bJUIxd9jjMY",
     cuisine: "Italian",
     cookTime: 20
   },
@@ -38,6 +41,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["chicken", "bell pepper", "onion", "garlic", "soy sauce", "ginger", "oil"],
     instructions: "Cut chicken into strips. Heat oil in wok. Cook chicken until done, remove. Stir fry vegetables with garlic and ginger. Add chicken back, pour soy sauce, toss together.",
     image_url: "https://images.unsplash.com/photo-1603073091291-de2cc6e7c488?w=800",
+    video_url: "https://www.youtube.com/watch?v=I67sV8GZ9Gg",
     cuisine: "Asian",
     cookTime: 25
   },
@@ -47,6 +51,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["tomato", "cucumber", "onion", "feta", "olive", "olive oil", "lemon"],
     instructions: "Chop tomatoes, cucumber, and onion. Combine in bowl. Add olives and crumbled feta. Dress with olive oil and lemon juice. Toss gently.",
     image_url: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800",
+    video_url: "https://www.youtube.com/watch?v=83e602e6040",
     cuisine: "Greek",
     cookTime: 10
   },
@@ -56,6 +61,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["rice", "mushroom", "onion", "wine", "broth", "parmesan", "butter"],
     instructions: "Sauté onions in butter. Add rice, toast briefly. Add wine, let absorb. Gradually add hot broth, stirring constantly. Add sautéed mushrooms. Finish with parmesan and butter.",
     image_url: "https://images.unsplash.com/photo-1476124369491-4ea26a4b8f5b?w=800",
+    video_url: "https://www.youtube.com/watch?v=6082R3D57xE",
     cuisine: "Italian",
     cookTime: 35
   },
@@ -65,6 +71,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["bread", "avocado", "egg", "tomato", "salt", "pepper", "chili"],
     instructions: "Toast bread. Mash avocado with salt and pepper. Spread on toast. Top with fried egg and halved cherry tomatoes. Sprinkle chili flakes.",
     image_url: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800",
+    video_url: "https://www.youtube.com/watch?v=2K4V5LzW2j0",
     cuisine: "Modern",
     cookTime: 10
   },
@@ -74,6 +81,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["beef", "taco shell", "lettuce", "tomato", "cheese", "sour cream", "seasoning"],
     instructions: "Brown ground beef with taco seasoning. Warm taco shells. Fill shells with beef, shredded lettuce, diced tomatoes, cheese, and sour cream.",
     image_url: "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=800",
+    video_url: "https://www.youtube.com/watch?v=DODQJg2gTwQ",
     cuisine: "Mexican",
     cookTime: 20
   },
@@ -83,6 +91,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["potato", "cauliflower", "carrot", "coconut milk", "curry paste", "onion", "garlic", "ginger"],
     instructions: "Sauté onion, garlic, ginger. Add curry paste. Add chopped vegetables and coconut milk. Simmer until vegetables are tender. Serve with rice.",
     image_url: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=800",
+    video_url: "https://www.youtube.com/watch?v=jGgYgZ9gYgQ",
     cuisine: "Indian",
     cookTime: 30
   },
@@ -92,6 +101,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["lettuce", "crouton", "parmesan", "dressing", "lemon", "anchovy"],
     instructions: "Chop romaine lettuce. Toss with Caesar dressing. Add croutons and shaved parmesan. Squeeze fresh lemon juice. Top with anchovies if desired.",
     image_url: "https://images.unsplash.com/photo-1546793665-c74683f339c1?w=800",
+    video_url: "https://www.youtube.com/watch?v=tX3xL9x8x8w",
     cuisine: "American",
     cookTime: 8
   },
@@ -101,6 +111,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["flour", "egg", "milk", "sugar", "baking powder", "butter", "syrup"],
     instructions: "Mix dry ingredients. Whisk eggs and milk, combine with dry mixture. Heat butter in pan. Pour batter, cook until bubbles form, flip. Serve with maple syrup.",
     image_url: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?w=800",
+    video_url: "https://www.youtube.com/watch?v=FLd00Bx4tOk",
     cuisine: "American",
     cookTime: 15
   },
@@ -110,6 +121,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["tomato", "onion", "garlic", "basil", "broth", "cream", "olive oil"],
     instructions: "Sauté onion and garlic in olive oil. Add chopped tomatoes and broth. Simmer 20 minutes. Blend until smooth. Stir in cream and fresh basil.",
     image_url: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800",
+    video_url: "https://www.youtube.com/watch?v=Yw9g9g9g9g9",
     cuisine: "American",
     cookTime: 30
   },
@@ -119,6 +131,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["chicken", "tortilla", "lettuce", "parmesan", "dressing", "tomato"],
     instructions: "Grill seasoned chicken, slice. Lay tortilla, add lettuce, chicken, parmesan, diced tomato, and Caesar dressing. Roll tightly and cut in half.",
     image_url: "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Chicken+Caesar+Wrap+Recipe",
     cuisine: "American",
     cookTime: 20
   },
@@ -128,6 +141,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["rice", "egg", "vegetable", "soy sauce", "garlic", "onion", "sesame oil"],
     instructions: "Heat oil in wok. Scramble eggs, remove. Stir fry garlic and vegetables. Add rice, break up clumps. Add soy sauce and sesame oil. Mix in eggs and green onions.",
     image_url: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=800",
+    video_url: "https://www.youtube.com/watch?v=4wQj8g9g9g9",
     cuisine: "Asian",
     cookTime: 15
   },
@@ -137,6 +151,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["pizza dough", "tomato sauce", "mozzarella", "basil", "olive oil", "salt"],
     instructions: "Roll out pizza dough. Spread tomato sauce. Add sliced mozzarella. Bake at 450°F for 12-15 min. Top with fresh basil and drizzle olive oil.",
     image_url: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=800",
+    video_url: "https://www.youtube.com/watch?v=1-SJGQ2HLp8",
     cuisine: "Italian",
     cookTime: 20
   },
@@ -146,6 +161,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["egg", "spinach", "cheese", "butter", "salt", "pepper"],
     instructions: "Beat eggs with salt and pepper. Melt butter in pan. Pour eggs, let set slightly. Add spinach and cheese to one half. Fold omelette and cook until done.",
     image_url: "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Spinach+Omelette+Recipe",
     cuisine: "French",
     cookTime: 10
   },
@@ -155,15 +171,17 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["pasta", "pesto", "tomato", "parmesan", "pine nut", "olive oil"],
     instructions: "Cook pasta according to package. Drain, reserving pasta water. Toss pasta with pesto, add pasta water to thin. Top with halved cherry tomatoes, parmesan, and toasted pine nuts.",
     image_url: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Pesto+Pasta+Recipe",
     cuisine: "Italian",
     cookTime: 15
   },
   {
     title: "Grilled Cheese Sandwich",
-    rawIngredients: ["4 slices bread", "4 slices cheese", "2 tbsp butter", "tomato"],
-    ingredients: ["bread", "cheese", "butter", "tomato"],
-    instructions: "Butter one side of each bread slice. Place cheese and tomato slices between bread, buttered sides out. Grill in pan over medium heat until golden and cheese melts.",
+    rawIngredients: ["4 slices bread", "4 cheese slices", "2 tbsp butter", "tomato"],
+    ingredients: ["bread", "cheese slice", "butter", "tomato"],
+    instructions: "Butter one side of each bread slice. Place cheese slice and tomato slices between bread, buttered sides out. Grill in pan over medium heat until golden and cheese melts.",
     image_url: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Grilled+Cheese+Sandwich+Recipe",
     cuisine: "American",
     cookTime: 10
   },
@@ -173,6 +191,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["lentil", "carrot", "celery", "onion", "garlic", "broth", "cumin", "olive oil"],
     instructions: "Sauté onion, carrots, celery, and garlic in olive oil. Add lentils, broth, and cumin. Simmer 30-35 minutes until lentils are tender. Season to taste.",
     image_url: "https://images.unsplash.com/photo-1547592180-85f173990554?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Lentil+Soup+Recipe",
     cuisine: "Middle Eastern",
     cookTime: 40
   },
@@ -182,6 +201,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["salmon", "broccoli", "lemon", "garlic", "olive oil", "salt", "pepper"],
     instructions: "Season salmon with salt, pepper, and lemon juice. Bake at 400°F for 12-15 min. Steam or roast broccoli with garlic and olive oil. Serve together.",
     image_url: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Salmon+with+Vegetables+Recipe",
     cuisine: "Healthy",
     cookTime: 20
   },
@@ -191,6 +211,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["bread", "egg", "milk", "cinnamon", "vanilla", "butter", "syrup"],
     instructions: "Whisk eggs, milk, cinnamon, and vanilla. Dip bread slices in mixture. Cook in buttered pan until golden on both sides. Serve with maple syrup.",
     image_url: "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=800",
+    video_url: "https://www.youtube.com/results?search_query=French+Toast+Recipe",
     cuisine: "American",
     cookTime: 15
   },
@@ -200,6 +221,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["quinoa", "avocado", "chickpea", "kale", "sweet potato", "tahini", "lemon"],
     instructions: "Cook quinoa. Roast chickpeas and sweet potato cubes. Massage kale with lemon. Arrange quinoa, vegetables, and avocado in bowl. Drizzle tahini dressing.",
     image_url: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Quinoa+Buddha+Bowl+Recipe",
     cuisine: "Healthy",
     cookTime: 30
   },
@@ -209,6 +231,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["beef", "potato", "carrot", "onion", "broth", "tomato paste", "thyme"],
     instructions: "Brown beef chunks. Remove and sauté onions. Return beef, add vegetables, broth, tomato paste, and thyme. Simmer 1.5-2 hours until tender.",
     image_url: "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Beef+Stew+Recipe",
     cuisine: "American",
     cookTime: 120
   },
@@ -218,6 +241,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["shrimp", "garlic", "wine", "lemon", "parsley", "butter", "pasta"],
     instructions: "Cook pasta. Sauté garlic in butter. Add shrimp, cook until pink. Add white wine and lemon juice. Toss with pasta and fresh parsley.",
     image_url: "https://images.unsplash.com/photo-1633504581786-316c8002b1b9?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Shrimp+Scampi+Recipe",
     cuisine: "Italian",
     cookTime: 20
   },
@@ -227,6 +251,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["black bean", "carrot", "bread crumb", "egg", "cumin", "bun", "lettuce", "tomato"],
     instructions: "Mash black beans. Mix with grated carrot, bread crumbs, egg, and cumin. Form patties. Pan fry until crispy. Serve on buns with lettuce and tomato.",
     image_url: "https://images.unsplash.com/photo-1520072959219-c595dc870360?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Veggie+Burger+Recipe",
     cuisine: "American",
     cookTime: 25
   },
@@ -237,6 +262,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["tortilla", "hummus", "cucumber", "carrot", "spinach"],
     instructions: "Spread hummus on tortillas. Layer with cucumber, carrot, and spinach. Roll up tightly and slice in half.",
     image_url: "https://images.unsplash.com/photo-1549880196-036136be44d1?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Hummus+and+Veggie+Wrap+Recipe",
     cuisine: "Mediterranean",
     cookTime: 5
   },
@@ -246,15 +272,17 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["black bean", "onion", "garlic", "broth", "cumin", "lime"],
     instructions: "Sauté onion and garlic. Add beans, broth, and cumin. Simmer for 15 minutes. Mash some beans to thicken. Serve with a squeeze of lime.",
     image_url: "https://images.unsplash.com/photo-1588166524941-6902269c84e1?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Black+Bean+Soup+Recipe",
     cuisine: "Mexican",
     cookTime: 20
   },
   {
     title: "Tuna Melt Sandwich",
-    rawIngredients: ["2 slices bread", "1 can tuna", "2 tbsp mayonnaise", "1 slice cheddar cheese", "butter"],
-    ingredients: ["bread", "tuna", "mayonnaise", "cheddar", "butter"],
-    instructions: "Mix tuna with mayonnaise. Layer on bread, top with cheese. Butter outside. Grill until cheese is melted and bread is golden.",
+    rawIngredients: ["2 slices bread", "1 can tuna", "2 tbsp mayonnaise", "1 cheese slice", "butter"],
+    ingredients: ["bread", "tuna", "mayonnaise", "cheese slice", "butter"],
+    instructions: "Mix tuna with mayonnaise. Layer on bread, top with cheese slice. Butter outside. Grill until cheese is melted and bread is golden.",
     image_url: "https://images.unsplash.com/photo-1545894179-873099905273?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Tuna+Melt+Sandwich+Recipe",
     cuisine: "American",
     cookTime: 10
   },
@@ -264,6 +292,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["pasta", "tomato", "garlic", "olive oil", "basil", "parmesan"],
     instructions: "Cook pasta. Sauté garlic in oil. Add crushed tomatoes, simmer. Toss with pasta, top with basil and parmesan.",
     image_url: "https://images.unsplash.com/photo-1594924610444-2458428236d3?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Easy+Tomato+Pasta+Recipe",
     cuisine: "Italian",
     cookTime: 20
   },
@@ -273,6 +302,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["broth", "chicken", "noodle", "carrot", "celery"],
     instructions: "Combine all ingredients in a pot. Simmer until vegetables are tender and noodles are cooked through.",
     image_url: "https://images.unsplash.com/photo-1627964417066-646f2509b552?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Chicken+Noodle+Soup+Recipe",
     cuisine: "American",
     cookTime: 25
   },
@@ -282,6 +312,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["bread", "butter", "garlic", "parsley", "parmesan"],
     instructions: "Slice bread. Mix soft butter, minced garlic, and parsley. Spread on bread. Bake until golden. Sprinkle with parmesan.",
     image_url: "https://images.unsplash.com/photo-1563242693-b67f4c549646?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Garlic+Breadsticks+Recipe",
     cuisine: "Italian",
     cookTime: 15
   },
@@ -291,15 +322,17 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["potato", "egg", "onion", "oil", "salt", "pepper"],
     instructions: "Fry potatoes until soft. Add onion, cook. Make wells, crack eggs, cover and cook until eggs are set.",
     image_url: "https://images.unsplash.com/photo-1562967911-3965d836336e?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Potato+and+Egg+Hash+Recipe",
     cuisine: "American",
     cookTime: 20
   },
   {
     title: "Simple Coleslaw",
-    rawIngredients: ["1/2 head cabbage, shredded", "1 carrot, shredded", "1/4 cup mayonnaise", "1 tbsp vinegar", "sugar", "salt"],
+    rawIngredients: ["1/2 head cabbage, shredded", "1 carrot", "1/4 cup mayonnaise", "1 tbsp vinegar", "sugar", "salt"],
     ingredients: ["cabbage", "carrot", "mayonnaise", "vinegar", "sugar", "salt"],
     instructions: "Whisk mayonnaise, vinegar, sugar, and salt. Toss dressing with shredded cabbage and carrot. Chill before serving.",
     image_url: "https://images.unsplash.com/photo-1594520937666-c95861b5f63d?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Simple+Coleslaw+Recipe",
     cuisine: "American",
     cookTime: 10
   },
@@ -309,6 +342,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["tofu", "onion", "bell pepper", "turmeric", "yeast", "olive oil"],
     instructions: "Crumble tofu. Sauté onion and pepper. Add tofu, turmeric for color, and nutritional yeast for flavor. Scramble until heated through.",
     image_url: "https://images.unsplash.com/photo-1511232822971-4a4b10b0b5d9?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Tofu+Scramble+Recipe",
     cuisine: "Vegan",
     cookTime: 15
   },
@@ -318,6 +352,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["tortilla", "cheese", "chicken", "butter"],
     instructions: "Butter one side of tortilla. Place butter-side down in pan. Layer cheese and chicken. Top with second tortilla. Flip and cook until golden.",
     image_url: "https://images.unsplash.com/photo-1565299624942-4386810c71a0?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Quesadilla+Recipe",
     cuisine: "Mexican",
     cookTime: 10
   },
@@ -327,6 +362,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["spaghetti", "egg", "parmesan", "bacon", "pepper"],
     instructions: "Cook spaghetti. Fry bacon until crispy. Mix egg yolks and parmesan. Toss pasta, bacon, and egg mixture quickly off heat.",
     image_url: "https://images.unsplash.com/photo-1616712135047-b903080ff0b5?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Pasta+Carbonara+Recipe",
     cuisine: "Italian",
     cookTime: 20
   },
@@ -336,6 +372,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["pasta", "tuna", "mayonnaise", "celery", "pea", "salt", "pepper"],
     instructions: "Cook and cool pasta. Mix tuna, mayo, diced celery, and peas. Combine with pasta and season.",
     image_url: "https://images.unsplash.com/photo-1579621970563-ed1bebb68aa9?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Tuna+Pasta+Salad+Recipe",
     cuisine: "American",
     cookTime: 20
   },
@@ -345,6 +382,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["potato", "leek", "broth", "cream", "butter", "salt", "pepper"],
     instructions: "Sauté leeks in butter. Add diced potatoes and broth. Simmer until potatoes are tender. Blend until creamy. Stir in cream.",
     image_url: "https://images.unsplash.com/photo-1563721382346-601934c9c2a6?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Potato+Leek+Soup+Recipe",
     cuisine: "French",
     cookTime: 35
   },
@@ -354,6 +392,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["chicken", "rice", "broth", "onion", "garlic powder", "oil"],
     instructions: "Brown chicken in oil, remove. Sauté onion. Add rice and broth. Place chicken back on top. Cover and simmer until rice is cooked.",
     image_url: "https://images.unsplash.com/photo-1620963339176-7eddd8b292e3?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Chicken+and+Rice+Skillet+Recipe",
     cuisine: "American",
     cookTime: 30
   },
@@ -363,6 +402,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["yogurt", "cucumber", "garlic", "olive oil", "lemon", "salt"],
     instructions: "Squeeze excess water from grated cucumber. Mix with yogurt, minced garlic, olive oil, lemon juice, and salt. Chill well.",
     image_url: "https://images.unsplash.com/photo-1589302168051-1f9e2d3122c5?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Tzatziki+Recipe",
     cuisine: "Greek",
     cookTime: 10
   },
@@ -372,6 +412,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["potato", "butter", "sour cream", "chive", "salt", "pepper"],
     instructions: "Bake potatoes until soft. Cut open, fluff flesh. Top with butter, sour cream, chives, salt, and pepper.",
     image_url: "https://images.unsplash.com/photo-1567117565369-ac96df3f48a1?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Baked+Potato+with+Sour+Cream+Recipe",
     cuisine: "American",
     cookTime: 60
   },
@@ -381,6 +422,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["bread", "chicken", "mayonnaise", "celery", "mustard", "salt", "pepper"],
     instructions: "Shred chicken. Mix with mayo, diced celery, mustard, salt, and pepper. Spread on bread.",
     image_url: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Chicken+Salad+Sandwich+Recipe",
     cuisine: "American",
     cookTime: 10
   },
@@ -390,6 +432,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["milk", "cocoa powder", "sugar", "salt", "vanilla"],
     instructions: "Heat milk in a saucepan. Whisk in cocoa powder, sugar, and salt until dissolved. Stir in vanilla. Serve hot.",
     image_url: "https://images.unsplash.com/photo-1542385437-02434855928a?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Hot+Chocolate+Recipe",
     cuisine: "Beverage",
     cookTime: 5
   },
@@ -399,6 +442,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["egg", "milk", "onion", "bell pepper", "cheese", "butter"],
     instructions: "Beat eggs and milk. Sauté onion and pepper. Pour eggs over vegetables. Cook until set. Add cheese and fold.",
     image_url: "https://images.unsplash.com/photo-1590747087679-d125439446d3?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Vegetable+Omelette+Recipe",
     cuisine: "French",
     cookTime: 15
   },
@@ -408,6 +452,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["spaghetti", "peanut butter", "soy sauce", "honey", "ginger"],
     instructions: "Cook spaghetti. Whisk peanut butter, soy sauce, honey, and minced ginger for sauce. Toss warm pasta with sauce.",
     image_url: "https://images.unsplash.com/photo-1555913220-4328d5d4d3c3?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Peanut+Butter+Noodles+Recipe",
     cuisine: "Asian",
     cookTime: 15
   },
@@ -417,6 +462,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["black bean", "tomato", "onion", "chili powder", "cumin", "broth"],
     instructions: "Sauté onion. Add beans, tomatoes, broth, and seasonings. Simmer 15 minutes. Serve with cheese or sour cream.",
     image_url: "https://images.unsplash.com/photo-1551062635-c35d9471168f?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Quick+Black+Bean+Chili+Recipe",
     cuisine: "Mexican",
     cookTime: 25
   },
@@ -426,6 +472,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["bread", "butter", "sugar", "cinnamon"],
     instructions: "Toast bread. Mix sugar and cinnamon. Spread butter on toast, sprinkle with cinnamon sugar.",
     image_url: "https://images.unsplash.com/photo-1518012643806-258385a69146?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Cinnamon+Sugar+Toast+Recipe",
     cuisine: "Dessert",
     cookTime: 5
   },
@@ -435,6 +482,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["shrimp", "butter", "garlic", "lemon", "parsley"],
     instructions: "Melt butter, sauté garlic. Add shrimp, cook until pink. Finish with lemon juice and parsley.",
     image_url: "https://images.unsplash.com/photo-1512132412856-02e071e72151?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Garlic+Butter+Shrimp+Recipe",
     cuisine: "Seafood",
     cookTime: 15
   },
@@ -444,6 +492,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["oat", "milk", "sugar", "berry"],
     instructions: "Cook oats with milk/water until creamy. Stir in sweetener. Top with fresh or frozen berries.",
     image_url: "https://images.unsplash.com/photo-1588661771147-380d368e7d8c?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Oatmeal+with+Berries+Recipe",
     cuisine: "Breakfast",
     cookTime: 10
   },
@@ -453,6 +502,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["tomato", "onion", "garlic", "olive oil", "oregano", "salt", "pepper"],
     instructions: "Sauté diced onion and garlic in oil. Add crushed tomatoes and seasonings. Simmer for 30 minutes.",
     image_url: "https://images.unsplash.com/photo-1551062635-c35d9471168f?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Simple+Tomato+Sauce+Recipe",
     cuisine: "Italian",
     cookTime: 40
   },
@@ -462,6 +512,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["bread", "tofu", "mayonnaise", "siracha", "carrot", "cilantro"],
     instructions: "Slice baguette, spread mayo/siracha mix. Layer fried tofu slices, pickled carrot, and fresh cilantro.",
     image_url: "https://images.unsplash.com/photo-1583337920406-932d2c184013?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Tofu+Banh+Mi+Recipe",
     cuisine: "Vietnamese",
     cookTime: 20
   },
@@ -471,6 +522,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["tomato", "kidney bean", "pasta", "carrot", "celery", "broth"],
     instructions: "Sauté carrots and celery. Add tomatoes, beans, and broth. Bring to boil, add pasta. Simmer until pasta is tender.",
     image_url: "https://images.unsplash.com/photo-1549880196-036136be44d1?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Minestrone+Soup+Recipe",
     cuisine: "Italian",
     cookTime: 30
   },
@@ -480,6 +532,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["rice", "chicken", "black bean", "corn", "salsa", "sour cream", "cheese"],
     instructions: "Cook rice. Assemble bowl with rice, black beans, corn, chopped chicken, salsa, sour cream, and cheese.",
     image_url: "https://images.unsplash.com/photo-1502302305374-68a44b8b60b8?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Chipotle+Chicken+Bowl+Recipe",
     cuisine: "Mexican",
     cookTime: 25
   },
@@ -489,6 +542,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["pasta", "sausage", "bell pepper", "onion", "tomato sauce", "garlic"],
     instructions: "Cook pasta. Fry sausage. Sauté peppers, onion, and garlic. Mix all together with tomato sauce.",
     image_url: "https://images.unsplash.com/photo-1563379926-ae8346101f30?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Sausage+and+Pepper+Pasta+Recipe",
     cuisine: "Italian",
     cookTime: 25
   },
@@ -498,15 +552,17 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["flour", "egg", "milk", "sugar", "baking powder", "butter", "syrup"],
     instructions: "Mix batter. Cook in waffle iron until golden brown. Serve with butter and maple syrup.",
     image_url: "https://images.unsplash.com/photo-1567117565369-ac96df3f48a1?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Waffles+Recipe",
     cuisine: "Breakfast",
     cookTime: 15
   },
   {
     title: "Classic Beef Burger",
     rawIngredients: ["500g ground beef", "2 burger buns", "lettuce", "tomato", "onion", "cheese slice", "mayonnaise"],
-    ingredients: ["beef", "bun", "lettuce", "tomato", "onion", "cheese", "mayonnaise"],
+    ingredients: ["beef", "bun", "lettuce", "tomato", "onion", "cheese slice", "mayonnaise"],
     instructions: "Form beef into patties and grill. Toast buns. Assemble burger with cheese, toppings, and mayo.",
     image_url: "https://images.unsplash.com/photo-1565299624942-4386810c71a0?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Classic+Beef+Burger+Recipe",
     cuisine: "American",
     cookTime: 20
   },
@@ -516,6 +572,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["chicken", "broccoli", "bell pepper", "peanut butter", "soy sauce", "ginger", "garlic"],
     instructions: "Stir fry chicken. Add vegetables. Whisk peanut butter, soy sauce, and seasonings for sauce. Toss all together.",
     image_url: "https://images.unsplash.com/photo-1603073091291-de2cc6e7c488?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Spicy+Peanut+Sauce+Stir+Fry+Recipe",
     cuisine: "Asian",
     cookTime: 25
   },
@@ -525,6 +582,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["flour", "egg", "milk", "ham", "cheddar"],
     instructions: "Mix thin crêpe batter. Cook crêpes. Fill with ham and cheese. Fold and serve warm.",
     image_url: "https://images.unsplash.com/photo-1551062635-c35d9471168f?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Ham+and+Cheese+Crepes+Recipe",
     cuisine: "French",
     cookTime: 20
   },
@@ -534,6 +592,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["broccoli", "broth", "milk", "cheddar", "butter", "flour"],
     instructions: "Make a roux with butter and flour. Gradually whisk in milk and broth. Add chopped broccoli. Simmer until tender. Stir in cheese until melted.",
     image_url: "https://images.unsplash.com/photo-1546793665-c74683f339c1?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Broccoli+and+Cheese+Soup+Recipe",
     cuisine: "American",
     cookTime: 30
   },
@@ -543,6 +602,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["bread", "falafel", "hummus", "tomato", "cucumber", "tahini"],
     instructions: "Warm pita. Spread hummus. Fill with falafel, diced tomato, cucumber, and tahini sauce.",
     image_url: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Falafel+Wrap+Recipe",
     cuisine: "Middle Eastern",
     cookTime: 15
   },
@@ -552,6 +612,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["sweet potato", "olive oil", "salt", "paprika"],
     instructions: "Cut potatoes into fries. Toss with olive oil, salt, and paprika. Bake at 425°F until crispy.",
     image_url: "https://images.unsplash.com/photo-1563721382346-601934c9c2a6?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Sweet+Potato+Fries+Recipe",
     cuisine: "Side Dish",
     cookTime: 30
   },
@@ -561,6 +622,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["rice", "egg", "pea", "soy sauce", "sesame oil", "onion"],
     instructions: "Scramble eggs, remove. Stir fry onion and peas. Add rice, soy sauce, and sesame oil. Mix in eggs.",
     image_url: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Egg+Fried+Rice+Recipe",
     cuisine: "Asian",
     cookTime: 15
   },
@@ -570,6 +632,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["pasta", "tomato sauce", "cream", "vodka", "parmesan"],
     instructions: "Cook pasta. Heat sauce and cream. Add a splash of vodka if desired. Toss with pasta and parmesan.",
     image_url: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Penne+alla+Vodka+Recipe",
     cuisine: "Italian",
     cookTime: 20
   },
@@ -579,6 +642,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["beef", "potato", "pea", "carrot", "broth", "milk", "butter"],
     instructions: "Make mashed potatoes with milk and butter. Brown beef, add peas/carrots and broth. Layer beef mix in a dish, top with mash. Bake.",
     image_url: "https://images.unsplash.com/photo-1563242693-b67f4c549646?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Mini+Shepherds+Pie+Recipe",
     cuisine: "British",
     cookTime: 45
   },
@@ -588,6 +652,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["bread", "hummus", "olive oil", "paprika"],
     instructions: "Toast pita bread. Cut into wedges. Serve with hummus drizzled with olive oil and a dash of paprika.",
     image_url: "https://images.unsplash.com/photo-1589302168051-1f9e2d3122c5?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Pita+and+Hummus+Snack+Recipe",
     cuisine: "Mediterranean",
     cookTime: 5
   },
@@ -597,6 +662,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["tofu", "bread crumb", "flour", "egg", "curry", "rice"],
     instructions: "Coat tofu in flour, egg, and bread crumbs. Fry until golden. Heat curry sauce. Serve tofu over rice with curry.",
     image_url: "https://images.unsplash.com/photo-1563379926-ae8346101f30?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Tofu+Katsu+Curry+Recipe",
     cuisine: "Japanese",
     cookTime: 30
   },
@@ -606,6 +672,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["mushroom", "onion", "broth", "cream", "butter", "thyme"],
     instructions: "Sauté mushrooms and onion in butter. Add broth and thyme. Simmer, then blend partially. Stir in cream.",
     image_url: "https://images.unsplash.com/photo-1562967911-3965d836336e?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Cream+of+Mushroom+Soup+Recipe",
     cuisine: "French",
     cookTime: 30
   },
@@ -615,6 +682,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["green", "cucumber", "dressing", "salt", "pepper"],
     instructions: "Combine greens and cucumber. Toss lightly with vinaigrette. Season to taste.",
     image_url: "https://images.unsplash.com/photo-1546793665-c74683f339c1?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Simple+Green+Salad+Recipe",
     cuisine: "Healthy",
     cookTime: 5
   },
@@ -624,6 +692,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["tortilla", "chicken", "rice", "black bean", "salsa", "cheese"],
     instructions: "Warm tortillas. Fill with rice, chicken, beans, salsa, and cheese. Roll into a burrito.",
     image_url: "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Chicken+Burrito+Recipe",
     cuisine: "Mexican",
     cookTime: 15
   },
@@ -633,6 +702,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["tuna", "potato", "egg", "bread crumb", "parsley", "oil"],
     instructions: "Mix tuna, mashed potato, egg, and parsley. Form into patties, coat in bread crumbs. Fry until golden brown.",
     image_url: "https://images.unsplash.com/photo-1579621970563-ed1bebb68aa9?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Tuna+Croquettes+Recipe",
     cuisine: "Seafood",
     cookTime: 25
   },
@@ -642,6 +712,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["zucchini", "pesto", "tomato", "parmesan"],
     instructions: "Spiralize zucchini into noodles. Toss with pesto. Top with halved cherry tomatoes and parmesan.",
     image_url: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Zucchini+Noodles+Pesto+Recipe",
     cuisine: "Healthy",
     cookTime: 10
   },
@@ -651,6 +722,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["rice", "egg", "ham", "soy sauce", "sesame oil", "onion"],
     instructions: "Scramble eggs, remove. Stir fry onion and ham. Add rice, soy sauce, and sesame oil. Mix in eggs.",
     image_url: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Ham+and+Egg+Fried+Rice+Recipe",
     cuisine: "Asian",
     cookTime: 15
   },
@@ -660,6 +732,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["hot dog", "bun", "ketchup", "mustard"],
     instructions: "Cook hot dogs by grilling or boiling. Place in buns. Top with ketchup and mustard.",
     image_url: "https://images.unsplash.com/photo-1608039829572-78524f79c4c7?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Hot+Dog+Recipe",
     cuisine: "American",
     cookTime: 10
   },
@@ -669,6 +742,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["tomato soup", "milk", "cream", "pepper", "crouton"],
     instructions: "Heat soup, stir in milk/cream. Season with pepper. Serve hot with croutons.",
     image_url: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Upgrade+Canned+Tomato+Soup",
     cuisine: "Quick Meal",
     cookTime: 5
   },
@@ -678,6 +752,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["yogurt", "granola", "berry", "honey"],
     instructions: "Layer yogurt, granola, and berries in a glass. Drizzle with honey.",
     image_url: "https://images.unsplash.com/photo-1588661771147-380d368e7d8c?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Yogurt+Parfait+Recipe",
     cuisine: "Breakfast",
     cookTime: 5
   },
@@ -687,6 +762,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["noodle", "butter", "parmesan", "salt", "pepper"],
     instructions: "Cook noodles. Drain, toss immediately with butter, parmesan, salt, and pepper.",
     image_url: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Butter+Noodles+Recipe",
     cuisine: "Simple",
     cookTime: 15
   },
@@ -696,6 +772,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["chicken", "bell pepper", "onion", "seasoning", "tortilla", "sour cream"],
     instructions: "Cook chicken with seasoning. Sauté peppers and onions. Serve hot in tortillas with sour cream.",
     image_url: "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Chicken+Fajitas+Recipe",
     cuisine: "Mexican",
     cookTime: 25
   },
@@ -705,6 +782,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["milk", "banana", "berry", "honey", "spinach"],
     instructions: "Combine all ingredients in a blender. Blend until smooth.",
     image_url: "https://images.unsplash.com/photo-1547592180-85f173990554?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Breakfast+Smoothie+Recipe",
     cuisine: "Beverage",
     cookTime: 5
   },
@@ -714,6 +792,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["egg", "bread", "mayonnaise", "mustard", "salt", "pepper"],
     instructions: "Mash eggs. Mix with mayo, mustard, salt, and pepper. Spread on bread.",
     image_url: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Egg+Salad+Sandwich+Recipe",
     cuisine: "American",
     cookTime: 10
   },
@@ -723,6 +802,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["bread", "bean", "butter", "salt", "pepper"],
     instructions: "Toast bread, butter. Heat baked beans. Pour beans over toast. Season.",
     image_url: "https://images.unsplash.com/photo-1562967911-3965d836336e?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Baked+Beans+on+Toast+Recipe",
     cuisine: "British",
     cookTime: 10
   },
@@ -732,6 +812,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["bell pepper", "rice", "beef", "tomato sauce", "onion", "garlic"],
     instructions: "Cut peppers in half. Brown beef with onion and garlic. Mix with rice and sauce. Stuff peppers and bake.",
     image_url: "https://images.unsplash.com/photo-1563721382346-601934c9c2a6?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Stuffed+Bell+Peppers+Recipe",
     cuisine: "American",
     cookTime: 45
   },
@@ -741,6 +822,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["potato", "milk", "butter", "salt", "pepper"],
     instructions: "Boil potatoes until tender. Drain, mash with milk and butter. Season well.",
     image_url: "https://images.unsplash.com/photo-1549880196-036136be44d1?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Mashed+Potatoes+Recipe",
     cuisine: "Side Dish",
     cookTime: 25
   },
@@ -750,6 +832,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["chicken", "egg", "bread crumb", "oil", "salt", "pepper"],
     instructions: "Cut chicken into strips. Dip in egg, then coat in bread crumbs. Fry in oil or bake.",
     image_url: "https://images.unsplash.com/photo-1565299624942-4386810c71a0?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Homemade+Chicken+Tenders+Recipe",
     cuisine: "American",
     cookTime: 20
   },
@@ -759,6 +842,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["chicken", "avocado", "celery", "salt", "pepper", "lemon"],
     instructions: "Mix shredded chicken, mashed avocado, and celery. Season with salt, pepper, and lemon juice.",
     image_url: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Avocado+Chicken+Salad+Recipe",
     cuisine: "Healthy",
     cookTime: 10
   },
@@ -768,6 +852,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["carrot", "olive oil", "thyme", "salt", "pepper"],
     instructions: "Toss carrots with oil, thyme, salt, and pepper. Roast at 400°F until tender and caramelized.",
     image_url: "https://images.unsplash.com/photo-1627964417066-646f2509b552?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Roasted+Carrots+Recipe",
     cuisine: "Side Dish",
     cookTime: 30
   },
@@ -777,6 +862,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["bread", "tomato", "garlic", "olive oil", "basil"],
     instructions: "Toast bread. Rub with garlic. Top with diced tomatoes, olive oil, and chopped basil.",
     image_url: "https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Tomato+Bruschetta+Recipe",
     cuisine: "Italian",
     cookTime: 10
   },
@@ -786,6 +872,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["flour", "egg", "milk", "sugar", "baking powder", "banana"],
     instructions: "Mix batter. Fold in mashed banana. Cook on a griddle until golden brown.",
     image_url: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Banana+Pancakes+Recipe",
     cuisine: "Breakfast",
     cookTime: 15
   },
@@ -795,6 +882,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["tortilla", "cheese", "chicken", "salsa", "sour cream"],
     instructions: "Heat tortilla, sprinkle cheese and chicken. Fold, cook until cheese melts. Serve with salsa and sour cream.",
     image_url: "https://images.unsplash.com/photo-1565299624942-4386810c71a0?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Chicken+Quesadilla+Recipe",
     cuisine: "Mexican",
     cookTime: 10
   },
@@ -804,6 +892,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["steak", "butter", "garlic", "thyme", "salt", "pepper"],
     instructions: "Season steak. Cook in butter. Add garlic and thyme, baste steak with the butter. Slice and serve.",
     image_url: "https://images.unsplash.com/photo-1633504581786-316c8002b1b9?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Garlic+Butter+Steak+Recipe",
     cuisine: "American",
     cookTime: 20
   },
@@ -813,6 +902,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["broth", "soy sauce", "vinegar", "chili paste", "egg", "tofu"],
     instructions: "Bring broth to boil, stir in soy sauce, vinegar, and chili paste. Stir in whisked egg, then add diced tofu.",
     image_url: "https://images.unsplash.com/photo-1627964417066-646f2509b552?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Hot+and+Sour+Soup+Recipe",
     cuisine: "Asian",
     cookTime: 15
   },
@@ -822,6 +912,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["milk", "cookie"],
     instructions: "Pour milk into a glass. Enjoy with cookies.",
     image_url: "https://images.unsplash.com/photo-1542385437-02434855928a?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Milk+and+Cookies",
     cuisine: "Dessert",
     cookTime: 2
   },
@@ -831,6 +922,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["apple", "peanut butter", "cinnamon"],
     instructions: "Slice apple. Dip slices in peanut butter. Sprinkle with cinnamon.",
     image_url: "https://images.unsplash.com/photo-1588661771147-380d368e7d8c?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Apple+Slices+Peanut+Butter+Snack",
     cuisine: "Snack",
     cookTime: 5
   },
@@ -840,15 +932,17 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["cheddar", "cracker"],
     instructions: "Slice cheese. Arrange cheese and crackers on a plate.",
     image_url: "https://images.unsplash.com/photo-1545894179-873099905273?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Cheese+and+Crackers+Platter",
     cuisine: "Snack",
     cookTime: 2
   },
   {
     title: "Ham and Cheese Sandwich",
-    rawIngredients: ["2 slices bread", "2 slices ham", "1 slice cheese", "mayonnaise", "mustard"],
-    ingredients: ["bread", "ham", "cheese", "mayonnaise", "mustard"],
+    rawIngredients: ["2 slices bread", "2 slices ham", "1 cheese slice", "mayonnaise", "mustard"],
+    ingredients: ["bread", "ham", "cheese slice", "mayonnaise", "mustard"],
     instructions: "Spread mayo and mustard on bread. Layer with ham and cheese.",
     image_url: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Ham+and+Cheese+Sandwich+Recipe",
     cuisine: "American",
     cookTime: 5
   },
@@ -858,6 +952,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["cereal", "milk", "sugar"],
     instructions: "Pour cereal into bowl. Add milk. Add sugar if desired.",
     image_url: "https://images.unsplash.com/photo-1563242693-b67f4c549646?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Cereal+with+Milk",
     cuisine: "Breakfast",
     cookTime: 2
   },
@@ -867,6 +962,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["tofu", "spinach", "turmeric", "yeast", "olive oil"],
     instructions: "Crumble tofu. Sauté spinach. Add tofu, turmeric, and nutritional yeast. Scramble until heated through.",
     image_url: "https://images.unsplash.com/photo-1511232822971-4a4b10b0b5d9?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Tofu+Scramble+Spinach+Recipe",
     cuisine: "Vegan",
     cookTime: 15
   },
@@ -876,6 +972,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["tortilla", "chicken", "lettuce", "mayonnaise"],
     instructions: "Spread mayo on tortilla. Layer with chicken and lettuce. Roll up.",
     image_url: "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Simple+Chicken+Wrap+Recipe",
     cuisine: "Quick Meal",
     cookTime: 5
   },
@@ -885,6 +982,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["sweet potato", "butter", "cinnamon"],
     instructions: "Bake sweet potatoes until soft. Split open, top with butter and cinnamon.",
     image_url: "https://images.unsplash.com/photo-1567117565369-ac96df3f48a1?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Baked+Sweet+Potato+Recipe",
     cuisine: "Side Dish",
     cookTime: 45
   },
@@ -894,6 +992,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["pasta", "butter", "garlic", "parsley"],
     instructions: "Cook pasta. Melt butter, sauté garlic. Toss with pasta and parsley.",
     image_url: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Buttered+Garlic+Pasta+Recipe",
     cuisine: "Italian",
     cookTime: 15
   },
@@ -903,6 +1002,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["cucumber", "vinegar", "sugar", "salt", "dill"],
     instructions: "Slice cucumbers thinly. Mix vinegar, sugar, and salt. Pour over cucumbers. Garnish with dill.",
     image_url: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Quick+Cucumber+Salad+Recipe",
     cuisine: "Side Dish",
     cookTime: 10
   },
@@ -912,6 +1012,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["salmon", "lemon", "pepper", "olive oil"],
     instructions: "Season salmon with lemon juice, pepper, and oil. Bake or pan-fry until cooked through.",
     image_url: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Lemon+Pepper+Salmon+Recipe",
     cuisine: "Healthy",
     cookTime: 15
   },
@@ -921,6 +1022,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["popcorn", "butter", "salt"],
     instructions: "Microwave popcorn according to package instructions. Add melted butter and salt if desired.",
     image_url: "https://images.unsplash.com/photo-1542385437-02434855928a?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Perfect+Microwave+Popcorn",
     cuisine: "Snack",
     cookTime: 5
   },
@@ -930,6 +1032,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["bread", "butter", "jam"],
     instructions: "Toast bread. Spread butter and jam.",
     image_url: "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Toast+with+Jam+ASMR",
     cuisine: "Breakfast",
     cookTime: 5
   },
@@ -939,6 +1042,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["bagel", "cream cheese", "seasoning"],
     instructions: "Toast bagel. Spread with cream cheese. Sprinkle with seasoning.",
     image_url: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Cream+Cheese+Bagel+Recipe",
     cuisine: "Breakfast",
     cookTime: 5
   },
@@ -948,6 +1052,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["chicken", "broccoli", "soy sauce", "garlic powder", "oil"],
     instructions: "Cut chicken into pieces and cook in oil with garlic powder. Add broccoli and a splash of soy sauce. Steam until broccoli is tender-crisp.",
     image_url: "https://images.unsplash.com/photo-1620963339176-7eddd8b292e3?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Chicken+and+Broccoli+Stir+Fry+Recipe",
     cuisine: "Healthy",
     cookTime: 20
   },
@@ -957,6 +1062,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["tortilla", "egg", "cheese", "salsa", "black bean", "onion"],
     instructions: "Scramble eggs. Warm tortillas. Fill with scrambled eggs, cheese, salsa, beans, and sautéed onion. Roll up.",
     image_url: "https://images.unsplash.com/photo-1616712135047-b903080ff0b5?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Breakfast+Burrito+Recipe",
     cuisine: "Mexican",
     cookTime: 15
   },
@@ -966,6 +1072,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["spaghetti", "butter", "garlic", "parmesan", "parsley"],
     instructions: "Cook spaghetti. Melt butter and sauté garlic. Toss with pasta, parmesan, and parsley.",
     image_url: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Garlic+Parmesan+Pasta+Recipe",
     cuisine: "Italian",
     cookTime: 15
   },
@@ -975,6 +1082,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["tuna", "mayonnaise", "celery", "lettuce", "mustard"],
     instructions: "Mix tuna, mayo, diced celery, and mustard. Spoon mixture into lettuce leaves for wraps.",
     image_url: "https://images.unsplash.com/photo-1546793665-c74683f339c1?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Tuna+Lettuce+Wraps+Recipe",
     cuisine: "Healthy",
     cookTime: 10
   },
@@ -984,6 +1092,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["sweet potato", "onion", "egg", "oil", "salt", "pepper"],
     instructions: "Dice sweet potatoes and onion. Fry in oil until tender. Make wells and crack eggs into them. Cook until eggs are set.",
     image_url: "https://images.unsplash.com/photo-1562967911-3965d836336e?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Sweet+Potato+Hash+Recipe",
     cuisine: "American",
     cookTime: 20
   },
@@ -993,6 +1102,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["flour", "sugar", "cocoa powder", "milk", "oil", "egg", "baking powder"],
     instructions: "Mix dry ingredients. Mix wet ingredients. Combine and bake in a pan at 350F.",
     image_url: "https://images.unsplash.com/photo-1563242693-b67f4c549646?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Simple+Chocolate+Cake+Recipe",
     cuisine: "Dessert",
     cookTime: 40
   },
@@ -1002,6 +1112,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["chicken", "olive oil", "paprika", "salt", "pepper", "garlic powder"],
     instructions: "Toss chicken with oil, lemon juice, and herbs. Bake or grill until cooked through.",
     image_url: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Roasted+Chicken+Thighs+Recipe",
     cuisine: "American",
     cookTime: 35
   },
@@ -1011,6 +1122,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["apple", "butter", "sugar", "cinnamon"],
     instructions: "Core apples. Fill center with butter, sugar, and cinnamon. Bake until soft.",
     image_url: "https://images.unsplash.com/photo-1518012643806-258385a69146?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Baked+Apples+Cinnamon+Recipe",
     cuisine: "Dessert",
     cookTime: 30
   },
@@ -1020,6 +1132,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["green bean", "butter", "garlic", "salt", "pepper"],
     instructions: "Steam green beans. Toss with melted butter, minced garlic, salt, and pepper.",
     image_url: "https://images.unsplash.com/photo-1627964417066-646f2509b552?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Garlic+Butter+Green+Beans+Recipe",
     cuisine: "Side Dish",
     cookTime: 15
   },
@@ -1029,6 +1142,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["tomato", "milk", "onion", "bread", "cheese"],
     instructions: "Make creamy tomato soup by simmering tomatoes, milk, and sautéed onion. Prepare grilled cheese on the side.",
     image_url: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Creamy+Tomato+Soup+Grilled+Cheese+Recipe",
     cuisine: "American",
     cookTime: 30
   },
@@ -1038,6 +1152,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["milk", "banana", "peanut butter", "honey"],
     instructions: "Blend all ingredients until smooth.",
     image_url: "https://images.unsplash.com/photo-1547592180-85f173990554?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Peanut+Butter+Banana+Smoothie+Recipe",
     cuisine: "Beverage",
     cookTime: 5
   },
@@ -1047,15 +1162,17 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["spaghetti", "beef", "tomato", "onion", "garlic"],
     instructions: "Cook spaghetti. Brown beef. Sauté onion and garlic. Add crushed tomatoes and simmer. Toss with pasta.",
     image_url: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Spaghetti+Bolognese+Recipe",
     cuisine: "Italian",
     cookTime: 35
   },
   {
     title: "Waffle Sandwich",
-    rawIngredients: ["2 frozen waffles", "2 slices ham", "1 slice cheese", "butter"],
-    ingredients: ["waffle", "ham", "cheese", "butter"],
+    rawIngredients: ["2 frozen waffles", "2 slices ham", "1 cheese slice", "butter"],
+    ingredients: ["waffle", "ham", "cheese slice", "butter"],
     instructions: "Toast waffles. Place ham and cheese between them. Grill lightly in butter until cheese melts.",
     image_url: "https://images.unsplash.com/photo-1567117565369-ac96df3f48a1?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Waffle+Sandwich+Recipe",
     cuisine: "American",
     cookTime: 10
   },
@@ -1065,6 +1182,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["broth", "tomato", "vegetable", "salt", "pepper"],
     instructions: "Combine all ingredients in a pot. Bring to a boil, then simmer until vegetables are tender.",
     image_url: "https://images.unsplash.com/photo-1549880196-036136be44d1?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Quick+Vegetable+Soup+Recipe",
     cuisine: "Quick Meal",
     cookTime: 15
   },
@@ -1074,6 +1192,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["tortilla", "tofu", "black bean", "salsa", "onion", "bell pepper"],
     instructions: "Scramble tofu with turmeric and spices. Sauté onion and pepper. Fill tortillas with tofu, beans, and salsa. Roll up.",
     image_url: "https://images.unsplash.com/photo-1511232822971-4a4b10b0b5d9?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Tofu+Scramble+Burrito+Recipe",
     cuisine: "Mexican",
     cookTime: 20
   },
@@ -1083,6 +1202,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["milk", "chocolate syrup"],
     instructions: "Stir chocolate syrup into cold milk.",
     image_url: "https://images.unsplash.com/photo-1542385437-02434855928a?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Perfect+Chocolate+Milk",
     cuisine: "Beverage",
     cookTime: 2
   },
@@ -1092,6 +1212,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["flatbread", "pizza dough", "pesto", "chicken", "mozzarella"],
     instructions: "Spread pesto on dough/flatbread. Top with chicken and mozzarella. Bake until cheese melts.",
     image_url: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Chicken+Pesto+Flatbread+Recipe",
     cuisine: "Italian",
     cookTime: 15
   },
@@ -1101,6 +1222,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["yogurt", "granola", "honey"],
     instructions: "Combine yogurt and granola. Drizzle with honey.",
     image_url: "https://images.unsplash.com/photo-1588661771147-380d368e7d8c?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Yogurt+Granola+Bowl",
     cuisine: "Breakfast",
     cookTime: 5
   },
@@ -1110,6 +1232,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["potato", "butter", "cheese", "sour cream", "bacon"],
     instructions: "Bake potatoes until tender. Split open, add butter, cheese, and sour cream.",
     image_url: "https://images.unsplash.com/photo-1567117565369-ac96df3f48a1?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Cheesy+Baked+Potatoes+Recipe",
     cuisine: "Side Dish",
     cookTime: 60
   },
@@ -1119,6 +1242,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["bread", "tuna", "mayonnaise", "salt", "pepper"],
     instructions: "Mix tuna with mayo, salt, and pepper. Spread on bread.",
     image_url: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Classic+Tuna+Sandwich+Recipe",
     cuisine: "American",
     cookTime: 5
   },
@@ -1128,6 +1252,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["steak", "potato", "olive oil", "salt", "pepper"],
     instructions: "Sear steak on both sides, then bake. Roast potatoes with oil, salt, and pepper.",
     image_url: "https://images.unsplash.com/photo-1633504581786-316c8002b1b9?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Steak+and+Potatoes+Recipe",
     cuisine: "American",
     cookTime: 30
   },
@@ -1137,6 +1262,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["beef", "black bean", "tomato", "chili powder", "onion"],
     instructions: "Brown beef, drain. Sauté onion. Add beef, beans, tomatoes, and chili powder. Simmer for 30 minutes.",
     image_url: "https://images.unsplash.com/photo-1551062635-c35d9471168f?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Spicy+Beef+Bean+Chili+Recipe",
     cuisine: "Mexican",
     cookTime: 40
   },
@@ -1146,6 +1272,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["noodle", "vegetable", "soy sauce", "sesame oil"],
     instructions: "Cook noodles. Stir-fry vegetables. Add noodles and soy/sesame oil. Toss to coat.",
     image_url: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Quick+Stir+Fry+Noodles+Recipe",
     cuisine: "Asian",
     cookTime: 15
   },
@@ -1155,6 +1282,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["chicken", "lemon", "olive oil", "thyme", "rosemary", "salt", "pepper"],
     instructions: "Coat chicken with oil, lemon juice, and herbs. Bake or grill until cooked through.",
     image_url: "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Lemon+Herb+Chicken+Recipe",
     cuisine: "Healthy",
     cookTime: 25
   },
@@ -1164,6 +1292,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["tortilla", "black bean", "cheese", "salsa", "sour cream"],
     instructions: "Crisp tortillas in oven. Mash and season black beans. Spread beans on tostadas. Top with cheese, salsa, and sour cream.",
     image_url: "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Black+Bean+Tostadas+Recipe",
     cuisine: "Mexican",
     cookTime: 20
   },
@@ -1173,6 +1302,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["tofu", "tomato", "onion", "turmeric", "yeast", "olive oil"],
     instructions: "Sauté onion and diced tomato. Crumble tofu, add to pan with turmeric and yeast. Scramble until heated through.",
     image_url: "https://images.unsplash.com/photo-1511232822971-4a4b10b0b5d9?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Tofu+Scramble+Tomato+Recipe",
     cuisine: "Vegan",
     cookTime: 15
   },
@@ -1182,6 +1312,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["noodle", "tuna", "mushroom soup", "milk", "cheese"],
     instructions: "Cook noodles. Mix with tuna, soup, milk, and cheese. Bake in a casserole dish until bubbly.",
     image_url: "https://images.unsplash.com/photo-1579621970563-ed1bebb68aa9?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Simple+Tuna+Casserole+Recipe",
     cuisine: "American",
     cookTime: 30
   },
@@ -1191,6 +1322,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["quinoa", "black bean", "corn", "salsa", "lime", "cilantro"],
     instructions: "Cook quinoa. Mix with beans, corn, salsa, and lime juice. Garnish with cilantro.",
     image_url: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Spicy+Quinoa+Salad+Recipe",
     cuisine: "Healthy",
     cookTime: 25
   },
@@ -1200,6 +1332,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["sausage", "egg", "butter", "salt", "pepper"],
     instructions: "Cook sausages. Fry eggs in butter. Serve together.",
     image_url: "https://images.unsplash.com/photo-1608039829572-78524f79c4c7?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Perfect+Sausage+and+Eggs",
     cuisine: "American",
     cookTime: 10
   },
@@ -1209,6 +1342,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["bell pepper", "onion", "tomato", "zucchini", "olive oil", "salt", "pepper"],
     instructions: "Cut vegetables into pieces. Thread onto skewers. Brush with oil and spices. Grill or roast.",
     image_url: "https://images.unsplash.com/photo-1549880196-036136be44d1?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Vegetable+Skewers+Recipe",
     cuisine: "Side Dish",
     cookTime: 20
   },
@@ -1218,6 +1352,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["bread", "peanut butter", "jam"],
     instructions: "Spread peanut butter on one slice and jam on the other. Combine.",
     image_url: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=800",
+    video_url: "https://www.youtube.com/results?search_query=PBJ+Sandwich+Art",
     cuisine: "American",
     cookTime: 2
   },
@@ -1227,6 +1362,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["watermelon", "feta", "mint", "lime"],
     instructions: "Combine cubed watermelon and feta. Drizzle with lime juice and garnish with mint.",
     image_url: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Watermelon+Feta+Salad+Recipe",
     cuisine: "Healthy",
     cookTime: 5
   },
@@ -1236,6 +1372,7 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     ingredients: ["broth", "egg", "soy sauce", "sesame oil", "onion"],
     instructions: "Bring broth to a boil. Drizzle in whisked eggs while stirring gently. Season with soy sauce and sesame oil. Garnish with green onion.",
     image_url: "https://images.unsplash.com/photo-1627964417066-646f2509b552?w=800",
+    video_url: "https://www.youtube.com/results?search_query=Egg+Drop+Soup+Recipe",
     cuisine: "Asian",
     cookTime: 10
   }

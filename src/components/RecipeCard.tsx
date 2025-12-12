@@ -2,7 +2,7 @@
 
 import { Recipe } from '../lib/database';
 import { RecipeScore } from '../lib/recommendation-engine';
-import { Clock, ChefHat, CheckCircle, XCircle, AlertTriangle, TrendingUp, MinusCircle, Trash2 } from 'lucide-react';
+import { Clock, ChefHat, CheckCircle, XCircle, AlertTriangle, TrendingUp, MinusCircle, Trash2, Youtube, ExternalLink } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useState } from 'react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
@@ -32,6 +32,9 @@ export function RecipeCard({ recipeScore, rank }: RecipeCardProps) {
     if (score >= 40) return 'bg-yellow-100';
     return 'bg-orange-100';
   };
+
+  // Generate a YouTube search link if no direct video_url is provided
+  const videoLink = recipe.video_url || `https://www.youtube.com/results?search_query=${encodeURIComponent(recipe.title + " recipe")}`;
 
   return (
     <motion.div
@@ -161,6 +164,19 @@ export function RecipeCard({ recipeScore, rank }: RecipeCardProps) {
             animate={{ height: 'auto', opacity: 1 }}
             className="mt-4 space-y-3"
           >
+            {/* Action Buttons */}
+            <div className="flex gap-2 mb-4">
+              <a 
+                href={videoLink} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg flex items-center justify-center gap-2 text-sm transition-colors"
+              >
+                <Youtube className="w-4 h-4" />
+                {recipe.video_url ? 'Watch Video' : 'Search Video'}
+              </a>
+            </div>
+
             {/* Ingredients You Have (Sufficient) */}
             {sufficientIngredients.length > 0 && (
               <div>

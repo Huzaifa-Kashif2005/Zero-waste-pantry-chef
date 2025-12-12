@@ -144,6 +144,13 @@ function ingredientsMatch(ingredient1: string, ingredient2: string): boolean {
   const norm1 = normalizeIngredient(ingredient1);
   const norm2 = normalizeIngredient(ingredient2);
   
+  // STRICT CHECK: Distinguish "cheese" from "cheese slice"
+  // This prevents generic cheese from matching cheese slices and vice versa
+  if ((norm1 === 'cheese' && norm2.includes('slice')) || 
+      (norm2 === 'cheese' && norm1.includes('slice'))) {
+    return false;
+  }
+
   if (norm1 === norm2) return true;
   if (norm1.includes(norm2) || norm2.includes(norm1)) return true;
   
@@ -152,6 +159,7 @@ function ingredientsMatch(ingredient1: string, ingredient2: string): boolean {
     'onion': ['onion', 'onions', 'scallion', 'green onion'],
     'pepper': ['pepper', 'bell pepper', 'chili', 'chile'],
     'cheese': ['cheese', 'cheddar', 'mozzarella', 'parmesan', 'feta'],
+    'cheese slice': ['cheese slice', 'american cheese', 'processed cheese', 'cheddar slice'],
     'oil': ['oil', 'olive oil', 'vegetable oil', 'sesame oil'],
     'broth': ['broth', 'stock', 'bouillon'],
     'bean': ['bean', 'black bean', 'kidney bean', 'chickpea'],

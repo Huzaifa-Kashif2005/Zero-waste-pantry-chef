@@ -8,6 +8,7 @@ export interface Recipe {
   rawIngredients: string[]; // Original with quantities
   instructions: string;
   image_url: string;
+  video_url?: string; // New optional field for YouTube links
   cuisine: string;
   cookTime: number; // in minutes
 }
