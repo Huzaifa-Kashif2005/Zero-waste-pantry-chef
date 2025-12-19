@@ -2,7 +2,7 @@
 
 import { Recipe } from '../lib/database';
 import { RecipeScore } from '../lib/recommendation-engine';
-import { Clock, ChefHat, CheckCircle, XCircle, AlertTriangle, TrendingUp, MinusCircle, Trash2, Youtube, ExternalLink } from 'lucide-react';
+import { Clock, ChefHat, CheckCircle, XCircle, AlertTriangle, TrendingUp, MinusCircle, Trash2, Youtube, Award } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useState } from 'react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
@@ -53,7 +53,7 @@ export function RecipeCard({ recipeScore, rank }: RecipeCardProps) {
         <div className="absolute top-3 left-3 bg-white px-3 py-1 rounded-full text-sm">
           #{rank}
         </div>
-        <div className={`absolute top-3 right-3 ${getScoreBg(score)} px-3 py-1 rounded-full ${getScoreColor(score)}`}>
+        <div className={`absolute top-3 right-3 ${getScoreBg(score)} px-3 py-1 rounded-full ${getScoreColor(score)} font-bold`}>
           {score.toFixed(0)} pts
         </div>
         {wasteSaved > 0 && (
@@ -82,16 +82,26 @@ export function RecipeCard({ recipeScore, rank }: RecipeCardProps) {
           </div>
         </div>
 
-        {/* Match Statistics */}
-        <div className="grid grid-cols-3 gap-2 mb-4">
+        {/* Match Statistics - Updated to 4 columns to include Score */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
+          {/* Recommendation Score Box */}
+          <div className={`${getScoreBg(score)} rounded-lg p-2 text-center`}>
+            <div className={`text-2xl font-bold ${getScoreColor(score)} flex items-center justify-center gap-1`}>
+               {score.toFixed(0)}
+            </div>
+            <div className="text-xs text-gray-600">Rec. Score</div>
+          </div>
+
           <div className="bg-blue-50 rounded-lg p-2 text-center">
             <div className="text-2xl text-blue-600">{Math.round(usageRatio * 100)}%</div>
-            <div className="text-xs text-gray-600">Sufficient Match</div>
+            <div className="text-xs text-gray-600">Match %</div>
           </div>
+          
           <div className="bg-green-50 rounded-lg p-2 text-center">
             <div className="text-2xl text-green-600">{sufficientIngredients.length}</div>
             <div className="text-xs text-gray-600">Have Enough</div>
           </div>
+          
           <div className="bg-orange-50 rounded-lg p-2 text-center">
             <div className="text-2xl text-orange-600">{missingOrInsufficientCount}</div>
             <div className="text-xs text-gray-600">Need More</div>
